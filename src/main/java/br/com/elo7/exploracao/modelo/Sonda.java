@@ -65,7 +65,7 @@ public class Sonda implements VeiculoExploracao {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void movimentar() {
+	public Sonda movimentar() {
 
 		/* O eixo da movimentação irá depender da direção atual */
 		switch (this.direcaoAtual) {
@@ -86,22 +86,28 @@ public class Sonda implements VeiculoExploracao {
 			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X, AVANCO_PADRAO);
 			break;
 		}
+		
+		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void girarParaEquerda() {
+	public Sonda girarParaEquerda() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoEsquerda();
+		
+		return this;
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void girarParaDireita() {
+	public Sonda girarParaDireita() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoDireita();
+		
+		return this;
 	}
 
 	@Override

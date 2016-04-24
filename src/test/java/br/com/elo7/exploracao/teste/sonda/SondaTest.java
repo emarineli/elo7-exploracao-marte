@@ -269,4 +269,50 @@ public class SondaTest {
 		assertEquals(new PosicaoCartesiana(1, 2), sonda.obterPosicaoAtual());
 	}
 
+	/**
+	 * Realiza o teste de caso apresentado no enunciado do problema.
+	 * 
+	 * ENTRADA:
+	 * 
+	 * 1 2 N LMLMLMLMM
+	 * 
+	 * SAIDA:
+	 * 
+	 * 1 3 N
+	 */
+	@Test
+	public void testCasoPrimeiroExemploExercicio() {
+
+		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(1, 2), NORTE);
+		sonda = sonda.girarParaEquerda().movimentar().girarParaEquerda().movimentar().girarParaEquerda().movimentar()
+				.girarParaEquerda().movimentar().movimentar();
+
+		assertEquals(new PosicaoCartesiana(1, 3), sonda.obterPosicaoAtual());
+		assertEquals(NORTE, sonda.obterDirecaoAtual());
+
+	}
+
+	/**
+	 * Realiza o teste de caso apresentado no enunciado do problema.
+	 * 
+	 * ENTRADA:
+	 * 
+	 * 3 3 E MMRMMRMRRM
+	 * 
+	 * SAIDA:
+	 * 
+	 * 5 1 E
+	 */
+	@Test
+	public void testCasoSegundoExemploExercicio() {
+
+		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(3, 3), LESTE);
+		sonda = sonda.movimentar().movimentar().girarParaDireita().movimentar().movimentar().girarParaDireita()
+				.movimentar().girarParaDireita().girarParaDireita().movimentar();
+
+		assertEquals(new PosicaoCartesiana(5, 1), sonda.obterPosicaoAtual());
+		assertEquals(LESTE, sonda.obterDirecaoAtual());
+
+	}
+
 }
