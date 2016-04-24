@@ -1,7 +1,5 @@
 package br.com.elo7.exploracao;
 
-import br.com.elo7.exploracao.modelo.Coordenada;
-
 /**
  * Representa qualquer veículo de exploração.
  * 
@@ -11,8 +9,21 @@ import br.com.elo7.exploracao.modelo.Coordenada;
 public interface VeiculoExploracao {
 
 	/**
-	 * Realiza a movimentação de um veículo de exploração.
+	 * Realiza a movimentação do veículo.
+	 * 
+	 * A direção em que o veículo irá se movimentar depende de sua orientação da
+	 * direção cardeal atual;
 	 */
-	void movimentar(Coordenada[] coordenadas);
+	void movimentar();
+
+	/**
+	 * Realiza um giro de 90 graus de sua direão cardeal para a esquerda.
+	 */
+	void girarParaEquerda();
+
+	/**
+	 * Realiza um giro de 90 graus de sua direção cardeal para a direita.
+	 */
+	void girarParaDireita();
 
 }

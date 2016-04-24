@@ -41,6 +41,18 @@ public class PosicaoCartesiana {
 		return eixoY;
 	}
 
+	public PosicaoCartesiana avancarNoEixo(EixoCartesiano eixo) {
+
+		return (eixo == EixoCartesiano.X ? new PosicaoCartesiana(this.eixoX + 1, this.eixoY)
+				: new PosicaoCartesiana(this.eixoX, this.eixoY + 1));
+	}
+
+	public PosicaoCartesiana retrocederNoEixo(EixoCartesiano eixo) {
+
+		return (eixo == EixoCartesiano.X ? new PosicaoCartesiana(this.eixoX - 1, this.eixoY)
+				: new PosicaoCartesiana(this.eixoX, this.eixoY - 1));
+	}
+
 	@Override
 	public int hashCode() {
 		return HashCodeBuilder.reflectionHashCode(this);
@@ -56,4 +68,7 @@ public class PosicaoCartesiana {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
+	public static enum EixoCartesiano {
+		Y, X
+	}
 }
