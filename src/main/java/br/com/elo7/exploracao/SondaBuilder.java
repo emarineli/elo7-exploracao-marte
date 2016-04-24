@@ -30,6 +30,13 @@ public class SondaBuilder {
 		return this;
 	}
 
+	public SondaBuilder naPosicaoInicial(PosicaoCartesiana posicaoInicial) {
+
+		this.posicaoInicial = posicaoInicial;
+
+		return this;
+	}
+
 	/**
 	 * Cria uma posição inicial baseada na padrão, onde os eixos X-Y são 0
 	 * (zero).

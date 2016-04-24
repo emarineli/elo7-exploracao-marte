@@ -5,6 +5,8 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.util.Assert;
 
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.*;
+
 /**
  * Representa duas coordenadas em um plano cartesiano de duas dimensões.
  * 
@@ -41,16 +43,40 @@ public class PosicaoCartesiana {
 		return eixoY;
 	}
 
-	public PosicaoCartesiana avancarNoEixo(EixoCartesiano eixo) {
+	/**
+	 * Realiza o avanço em uma unidade de posição no eixo indicado
+	 * 
+	 * @param eixo
+	 *            eixo de avanço
+	 * @param avanco
+	 *            indica a quantidade do avanço no eixo indicado.
+	 * 
+	 * @return nova instância da Posicao Cartesiana com avanço realizado.
+	 */
+	public PosicaoCartesiana avancarNoEixo(EixoCartesiano eixo, int avanco) {
 
-		return (eixo == EixoCartesiano.X ? new PosicaoCartesiana(this.eixoX + 1, this.eixoY)
-				: new PosicaoCartesiana(this.eixoX, this.eixoY + 1));
+		return (eixo == X ? new PosicaoCartesiana(this.eixoX + avanco, this.eixoY)
+				: new PosicaoCartesiana(this.eixoX, this.eixoY + avanco));
 	}
 
-	public PosicaoCartesiana retrocederNoEixo(EixoCartesiano eixo) {
+	/**
+	 * Realiza o retrocesso em uma unidade de posição no eixo indicado
+	 * 
+	 * @param eixo
+	 *            eixo de avanço
+	 * @param avanco
+	 *            indica a quantidade do avanço no eixo indicado.
+	 * 
+	 * @return nova instância da Posicao Cartesiana com retrocesso realizado.
+	 */
+	public PosicaoCartesiana retrocederNoEixo(EixoCartesiano eixo, int avanco) {
 
-		return (eixo == EixoCartesiano.X ? new PosicaoCartesiana(this.eixoX - 1, this.eixoY)
-				: new PosicaoCartesiana(this.eixoX, this.eixoY - 1));
+		if(this.eixoX < 0 || this.eixoY < 0) {
+			return this;
+		}
+		
+		return (eixo == X ? new PosicaoCartesiana(this.eixoX - avanco, this.eixoY)
+				: new PosicaoCartesiana(this.eixoX, this.eixoY - avanco));
 	}
 
 	@Override
@@ -68,7 +94,14 @@ public class PosicaoCartesiana {
 		return ToStringBuilder.reflectionToString(this);
 	}
 
-	public static enum EixoCartesiano {
+	/**
+	 * Enumerador que representa os eixos cartesianos em um plano de duas
+	 * dimensões.
+	 * 
+	 * @author emarineli
+	 *
+	 */
+	public enum EixoCartesiano {
 		Y, X
 	}
 }

@@ -20,6 +20,8 @@ import br.com.elo7.exploracao.VeiculoExploracao;
  */
 public class Sonda implements VeiculoExploracao {
 
+	private static final int AVANCO_PADRAO = 1;
+
 	private String identificadorSonda;
 
 	private PosicaoCartesiana posicaoAtual;
@@ -43,9 +45,11 @@ public class Sonda implements VeiculoExploracao {
 		notNull(direcaoInicial, "A sonda necessita saber qual será sua direção inicial!");
 
 		this.identificadorSonda = identificadorSonda;
+		this.posicaoAtual = posicaoInicial;
+		this.direcaoAtual = direcaoInicial;
 	}
 
-	public String getIdentificador() {
+	public String obterIdentificador() {
 		return this.identificadorSonda;
 	}
 
@@ -62,24 +66,24 @@ public class Sonda implements VeiculoExploracao {
 	 */
 	@Override
 	public void movimentar() {
-		
+
 		/* O eixo da movimentação irá depender da direção atual */
 		switch (this.direcaoAtual) {
 
 		case NORTE:
-			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(Y);
+			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(Y, AVANCO_PADRAO);
 			break;
 
 		case SUL:
-			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X);
+			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(Y, AVANCO_PADRAO);
 			break;
 
 		case LESTE:
-			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(X);
+			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(X, AVANCO_PADRAO);
 			break;
 
 		case OESTE:
-			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X);
+			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X, AVANCO_PADRAO);
 			break;
 		}
 	}

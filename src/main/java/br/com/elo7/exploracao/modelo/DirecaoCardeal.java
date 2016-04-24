@@ -71,10 +71,24 @@ public enum DirecaoCardeal {
 		return null;
 	}
 
+	/**
+	 * Obtém qual é a próxima direção cardeal à esquerda da direção atual.
+	 * Exemplo: Caso a direção atual for NORTE, a próxima direção à esquerda é
+	 * OESTE.
+	 * 
+	 * @return próxima direção cardeal à esquerda da direção atual.
+	 */
 	public DirecaoCardeal obterProximaDirecaoEsquerda() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoEsquerda);
 	}
 
+	/**
+	 * Obtém qual é a próxima direção cardeal à direita da direção atual.
+	 * Exemplo: Caso a direção atual for NORTE, a próxima direção à direita é
+	 * LESTE.
+	 * 
+	 * @return próxima direção cardeal à direita da direção atual.
+	 */
 	public DirecaoCardeal obterProximaDirecaoDireita() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoDireita);
 	}
