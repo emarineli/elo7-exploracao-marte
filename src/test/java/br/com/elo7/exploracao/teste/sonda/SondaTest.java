@@ -72,18 +72,34 @@ public class SondaTest {
 
 	/**
 	 * Verifica a tentativa de criação de uma sonda com uma posição nula.
+	 * 
+	 * Caso não seja informada uma posição, a posição padrão (0,0) é atribuída.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testCriacaoFalhaSondaPorPosicaoNula() {
-		new Sonda(" ", null, DIRECAO_PADRAO);
+	@Test
+	public void testCriacaoSondaPorPosicaoNula() {
+		assertNotEquals(sondaBase, new Sonda("sonda", null, NORTE));
 	}
 
 	/**
 	 * Verifica a tentativa de criação de uma sonda com uma direção nula.
+	 * 
+	 * Caso não seja informada uma direção, a direção padrão (NORTE) é
+	 * atribuída.
 	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testCriacaoFalhaSondaPorDirecaoNula() {
-		new Sonda(" ", POSICAO_PADRAO, null);
+	@Test
+	public void testCriacaoSondaPorDirecaoNula() {
+		assertNotEquals(sondaBase, new Sonda("sonda", POSICAO_PADRAO, null));
+	}
+
+	/**
+	 * Verifica a tentativa de criação de uma sonda com uma direção nula.
+	 * 
+	 * Caso direção e posição não sejam informadas, seus valores padrão são
+	 * atribuídos.
+	 */
+	@Test
+	public void testCriacaoSondaPorDirecaoEPosicaoNula() {
+		assertNotEquals(sondaBase, new Sonda("sonda", null, null));
 	}
 
 	/**

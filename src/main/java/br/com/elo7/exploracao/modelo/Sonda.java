@@ -1,13 +1,18 @@
 package br.com.elo7.exploracao.modelo;
 
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.Y;
 import static org.springframework.util.Assert.hasText;
-import static org.springframework.util.Assert.notNull;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import br.com.elo7.exploracao.VeiculoExploracao;
 
@@ -18,13 +23,18 @@ import br.com.elo7.exploracao.VeiculoExploracao;
  * @author emarineli
  *
  */
+@JsonRootName(value = "sonda")
 public class Sonda implements VeiculoExploracao {
 
 	private static final int AVANCO_PADRAO = 1;
 
+	@JsonProperty
 	private String identificadorSonda;
 
+	@JsonProperty
 	private PosicaoCartesiana posicaoAtual;
+
+	@JsonProperty
 	private DirecaoCardeal direcaoAtual;
 
 	/**
@@ -38,15 +48,16 @@ public class Sonda implements VeiculoExploracao {
 	 * @param direcaoInicial
 	 *            indica qual será a direção inicial da sonda.
 	 */
-	public Sonda(String identificadorSonda, PosicaoCartesiana posicaoInicial, DirecaoCardeal direcaoInicial) {
+	@JsonCreator
+	public Sonda(@JsonProperty("identificadorSonda") String identificadorSonda,
+			@JsonProperty("posicaoAtual") PosicaoCartesiana posicaoInicial,
+			@JsonProperty("direcaoAtual") DirecaoCardeal direcaoInicial) {
 
 		hasText(identificadorSonda, "A Sonda deve possuir um identificador!");
-		notNull(posicaoInicial, "A sonda necessita saber qual será sua posição inicial!");
-		notNull(direcaoInicial, "A sonda necessita saber qual será sua direção inicial!");
 
 		this.identificadorSonda = identificadorSonda;
-		this.posicaoAtual = posicaoInicial;
-		this.direcaoAtual = direcaoInicial;
+		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO : posicaoInicial;
+		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO : direcaoInicial;
 	}
 
 	public String obterIdentificador() {
@@ -86,7 +97,7 @@ public class Sonda implements VeiculoExploracao {
 			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X, AVANCO_PADRAO);
 			break;
 		}
-		
+
 		return this;
 	}
 
@@ -96,7 +107,7 @@ public class Sonda implements VeiculoExploracao {
 	@Override
 	public Sonda girarParaEquerda() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoEsquerda();
-		
+
 		return this;
 	}
 
@@ -106,7 +117,7 @@ public class Sonda implements VeiculoExploracao {
 	@Override
 	public Sonda girarParaDireita() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoDireita();
-		
+
 		return this;
 	}
 

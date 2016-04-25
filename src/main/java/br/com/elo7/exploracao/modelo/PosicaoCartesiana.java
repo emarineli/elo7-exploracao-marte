@@ -1,11 +1,14 @@
 package br.com.elo7.exploracao.modelo;
 
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.util.Assert;
 
-import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.*;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Representa duas coordenadas em um plano cartesiano de duas dimensões.
@@ -15,7 +18,8 @@ import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.*;
  */
 public class PosicaoCartesiana {
 
-	private int eixoX = 0, eixoY = 0;
+	private int eixoX = 0;
+	private int eixoY = 0;
 
 	public static PosicaoCartesiana POSICAO_PADRAO = new PosicaoCartesiana(0, 0);
 
@@ -27,7 +31,8 @@ public class PosicaoCartesiana {
 	 * @param eixoY
 	 *            eixo Y
 	 */
-	public PosicaoCartesiana(int eixoX, int eixoY) {
+	@JsonCreator
+	public PosicaoCartesiana(@JsonProperty("eixoX") int eixoX, @JsonProperty("eixoY") int eixoY) {
 
 		Assert.isTrue(eixoX >= 0 && eixoY >= 0, "As coordenadas dos eixos X-Y devem ser iguais ou maior que zero!");
 
@@ -71,10 +76,10 @@ public class PosicaoCartesiana {
 	 */
 	public PosicaoCartesiana retrocederNoEixo(EixoCartesiano eixo, int avanco) {
 
-		if(this.eixoX < 0 || this.eixoY < 0) {
+		if (this.eixoX < 0 || this.eixoY < 0) {
 			return this;
 		}
-		
+
 		return (eixo == X ? new PosicaoCartesiana(this.eixoX - avanco, this.eixoY)
 				: new PosicaoCartesiana(this.eixoX, this.eixoY - avanco));
 	}
