@@ -40,7 +40,8 @@ public class SpringRestErrorHandler {
 	public ResponseEntity<MensagemErro> handlerException(final Exception ex) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add(CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON);
-		return new ResponseEntity<MensagemErro>(criarMensagemErro(ex.getMessage()), responseHeaders,
+		return new ResponseEntity<MensagemErro>(
+				criarMensagemErro(ex.getMessage() != null ? ex.getMessage() : "Erro desconhecido."), responseHeaders,
 				HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
@@ -80,8 +81,7 @@ public class SpringRestErrorHandler {
 		return new ResponseEntity<MensagemErro>(criarMensagemErro(ex.getMessage()), responseHeaders,
 				HttpStatus.NOT_FOUND);
 	}
-	
-	
+
 	private MensagemErro criarMensagemErro(String mensagemErro) {
 		return new MensagemErro(mensagemErro);
 	}

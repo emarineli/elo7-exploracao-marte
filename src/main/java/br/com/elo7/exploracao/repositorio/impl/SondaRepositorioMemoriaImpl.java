@@ -3,6 +3,8 @@ package br.com.elo7.exploracao.repositorio.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Repository;
+
 import br.com.elo7.exploracao.exeception.ColisaoSondaException;
 import br.com.elo7.exploracao.exeception.SondaDuplicadaException;
 import br.com.elo7.exploracao.exeception.SondaNaoEncontradaException;
@@ -17,6 +19,7 @@ import br.com.elo7.exploracao.repositorio.SondaRepositorio;
  * @author emarineli
  *
  */
+@Repository
 public class SondaRepositorioMemoriaImpl implements SondaRepositorio {
 
 	/* Os mapas abaixo servirão como repositórios em memória */

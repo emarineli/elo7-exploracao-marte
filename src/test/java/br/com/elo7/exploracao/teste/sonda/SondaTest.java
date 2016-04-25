@@ -1,12 +1,16 @@
 package br.com.elo7.exploracao.teste.sonda;
 
 import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.LESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.NORTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.OESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.SUL;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.Sonda;
 

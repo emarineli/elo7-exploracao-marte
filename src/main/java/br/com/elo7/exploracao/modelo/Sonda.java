@@ -9,12 +9,15 @@ import static org.springframework.util.Assert.hasText;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
 
 import br.com.elo7.exploracao.VeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.SondaRepositorio;
 
 /**
  * Representa um veículo de exploração espacial que no caso é um veículo de
@@ -24,6 +27,7 @@ import br.com.elo7.exploracao.VeiculoExploracao;
  *
  */
 @JsonRootName(value = "sonda")
+@Configurable
 public class Sonda implements VeiculoExploracao {
 
 	private static final int AVANCO_PADRAO = 1;
@@ -36,6 +40,9 @@ public class Sonda implements VeiculoExploracao {
 
 	@JsonProperty
 	private DirecaoCardeal direcaoAtual;
+	
+	@Autowired
+	private SondaRepositorio sondaRepositorio;
 
 	/**
 	 * Constroi uma sonda lhe atribuindo um identificador que deve ser único.
@@ -98,6 +105,8 @@ public class Sonda implements VeiculoExploracao {
 			break;
 		}
 
+		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
+		
 		return this;
 	}
 
@@ -108,6 +117,8 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaEquerda() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoEsquerda();
 
+		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
+		
 		return this;
 	}
 
@@ -118,6 +129,8 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaDireita() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoDireita();
 
+		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
+		
 		return this;
 	}
 
