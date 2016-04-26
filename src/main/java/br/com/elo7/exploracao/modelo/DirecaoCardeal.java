@@ -58,7 +58,7 @@ public enum DirecaoCardeal {
 	 * 
 	 * @param representacaoString
 	 *            representação em string da direção cardeal.
-	 * @return diração caso tenha sido encontrada.
+	 * @return direção caso tenha sido encontrada.
 	 */
 	public DirecaoCardeal obterDirecaoPorRepresentacao(String representacaoString) {
 

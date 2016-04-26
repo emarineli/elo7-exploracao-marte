@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+
 import br.com.elo7.exploracao.exeception.SondaNaoEncontradaException;
 
 /**
@@ -54,7 +57,8 @@ public class SpringRestErrorHandler {
 	 *            exceção.
 	 * @return entidade com a mensagem de erro.
 	 */
-	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class })
+	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, IllegalArgumentException.class,
+			JsonProcessingException.class, JsonMappingException.class })
 	@ResponseStatus(HttpStatus.BAD_REQUEST)
 	@ResponseBody
 	public ResponseEntity<MensagemErro> handlerBadRequest(final Exception ex) {
