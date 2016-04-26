@@ -1,6 +1,20 @@
 package br.com.elo7.exploracao.teste.repositorio;
 
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.LESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.NORTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardeal.SUL;
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
+import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.elo7.exploracao.exeception.ColisaoSondaException;
 import br.com.elo7.exploracao.exeception.SondaDuplicadaException;
@@ -9,30 +23,32 @@ import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.Sonda;
 import br.com.elo7.exploracao.repositorio.impl.SondaRepositorioMemoriaImpl;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
-
-import static org.junit.Assert.*;
-
-import org.junit.Before;
-
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
-import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
-
 /**
  * Testes relacionados ao repositório da entidade Sonda.
  * 
  * @author emarineli
  *
  */
+@RunWith(MockitoJUnitRunner.class)
 public class SondaRepositorioMemoriaTest {
 
-	private final Sonda sondaBase = new Sonda("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 	private SondaRepositorioMemoriaImpl repo;
+
+	@Mock
+	private SondaRepositorioMemoriaImpl repoMock;
+
+	private final Sonda sondaBase = new Sonda("teste", POSICAO_PADRAO,
+			DIRECAO_PADRAO);
 
 	@Before
 	public void setup() {
+
+		MockitoAnnotations.initMocks(this);
+
 		repo = new SondaRepositorioMemoriaImpl();
 		repo.implantarSonda(sondaBase);
+
+		sondaBase.setSondaRepositorio(repoMock);
 	}
 
 	/**
@@ -59,7 +75,8 @@ public class SondaRepositorioMemoriaTest {
 	 */
 	@Test
 	public void testImplantarSonda() {
-		Sonda novaSonda = new Sonda("novaSonda", new PosicaoCartesiana(2, 2), LESTE);
+		Sonda novaSonda = new Sonda("novaSonda", new PosicaoCartesiana(2, 2),
+				LESTE);
 
 		assertEquals(novaSonda, repo.implantarSonda(novaSonda));
 
@@ -80,7 +97,8 @@ public class SondaRepositorioMemoriaTest {
 	 */
 	@Test(expected = ColisaoSondaException.class)
 	public void testImplantarSondaColisaoPosicao() {
-		repo.implantarSonda(new Sonda("novaSondaColisora", POSICAO_PADRAO, NORTE));
+		repo.implantarSonda(new Sonda("novaSondaColisora", POSICAO_PADRAO,
+				NORTE));
 
 	}
 
@@ -93,11 +111,14 @@ public class SondaRepositorioMemoriaTest {
 	@Test
 	public void testAtualizarPosicaoSonda() {
 
-		Sonda sondaNovaPosicao = new Sonda(sondaBase.obterIdentificador(), new PosicaoCartesiana(2, 3), NORTE);
+		Sonda sondaNovaPosicao = new Sonda(sondaBase.obterIdentificador(),
+				new PosicaoCartesiana(2, 3), NORTE);
 
 		repo.atualizarPosicaoDirecaoSonda(sondaNovaPosicao);
 
-		assertEquals(sondaNovaPosicao, repo.obterSondaPeloIdentificador(sondaNovaPosicao.obterIdentificador()));
+		assertEquals(sondaNovaPosicao,
+				repo.obterSondaPeloIdentificador(sondaNovaPosicao
+						.obterIdentificador()));
 	}
 
 	/**
@@ -109,11 +130,14 @@ public class SondaRepositorioMemoriaTest {
 	@Test
 	public void testAtualizarApenasDirecaoSonda() {
 
-		Sonda sondaNovaPosicao = new Sonda(sondaBase.obterIdentificador(), sondaBase.obterPosicaoAtual(), SUL);
+		Sonda sondaNovaPosicao = new Sonda(sondaBase.obterIdentificador(),
+				sondaBase.obterPosicaoAtual(), SUL);
 
 		repo.atualizarPosicaoDirecaoSonda(sondaNovaPosicao);
 
-		assertEquals(sondaNovaPosicao, repo.obterSondaPeloIdentificador(sondaNovaPosicao.obterIdentificador()));
+		assertEquals(sondaNovaPosicao,
+				repo.obterSondaPeloIdentificador(sondaNovaPosicao
+						.obterIdentificador()));
 	}
 
 	@Test(expected = ColisaoSondaException.class)
@@ -122,7 +146,8 @@ public class SondaRepositorioMemoriaTest {
 		/* Com o giro e movimentação a posição da sonda é alterada */
 		sondaBase.girarParaDireita().movimentar();
 
-		Sonda novaSontaColisora = repo.implantarSonda(new Sonda("novaSondaColisora", POSICAO_PADRAO, DIRECAO_PADRAO));
+		Sonda novaSontaColisora = repo.implantarSonda(new Sonda(
+				"novaSondaColisora", POSICAO_PADRAO, DIRECAO_PADRAO));
 		novaSontaColisora.girarParaDireita().movimentar();
 
 		repo.atualizarPosicaoDirecaoSonda(novaSontaColisora);
@@ -135,7 +160,8 @@ public class SondaRepositorioMemoriaTest {
 	@Test(expected = SondaNaoEncontradaException.class)
 	public void testAtualizarSondaNaoEncontrada() {
 
-		Sonda sondaNaoImplantada = new Sonda("sondaNaoImplantada", POSICAO_PADRAO, DIRECAO_PADRAO);
+		Sonda sondaNaoImplantada = new Sonda("sondaNaoImplantada",
+				POSICAO_PADRAO, DIRECAO_PADRAO);
 
 		repo.atualizarPosicaoDirecaoSonda(sondaNaoImplantada);
 	}

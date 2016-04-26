@@ -40,7 +40,7 @@ public class Sonda implements VeiculoExploracao {
 
 	@JsonProperty
 	private DirecaoCardeal direcaoAtual;
-	
+
 	@Autowired
 	private SondaRepositorio sondaRepositorio;
 
@@ -63,8 +63,10 @@ public class Sonda implements VeiculoExploracao {
 		hasText(identificadorSonda, "A Sonda deve possuir um identificador!");
 
 		this.identificadorSonda = identificadorSonda;
-		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO : posicaoInicial;
-		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO : direcaoInicial;
+		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO
+				: posicaoInicial;
+		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO
+				: direcaoInicial;
 	}
 
 	public String obterIdentificador() {
@@ -89,24 +91,28 @@ public class Sonda implements VeiculoExploracao {
 		switch (this.direcaoAtual) {
 
 		case NORTE:
-			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(Y, AVANCO_PADRAO);
+			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(Y,
+					AVANCO_PADRAO);
 			break;
 
 		case SUL:
-			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(Y, AVANCO_PADRAO);
+			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(Y,
+					AVANCO_PADRAO);
 			break;
 
 		case LESTE:
-			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(X, AVANCO_PADRAO);
+			this.posicaoAtual = this.posicaoAtual.avancarNoEixo(X,
+					AVANCO_PADRAO);
 			break;
 
 		case OESTE:
-			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X, AVANCO_PADRAO);
+			this.posicaoAtual = this.posicaoAtual.retrocederNoEixo(X,
+					AVANCO_PADRAO);
 			break;
 		}
 
-		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
-		
+		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+
 		return this;
 	}
 
@@ -117,8 +123,8 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaEquerda() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoEsquerda();
 
-		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
-		
+		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+
 		return this;
 	}
 
@@ -129,9 +135,22 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaDireita() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoDireita();
 
-		sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
-		
+		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+
 		return this;
+	}
+
+	/**
+	 * Visibilidade de dependência
+	 * 
+	 * @param sondaRepositorio
+	 */
+	public void setSondaRepositorio(SondaRepositorio sondaRepositorio) {
+		this.sondaRepositorio = sondaRepositorio;
+	}
+	
+	public SondaRepositorio getSondaRepositorio() {
+		return this.sondaRepositorio;
 	}
 
 	@Override
