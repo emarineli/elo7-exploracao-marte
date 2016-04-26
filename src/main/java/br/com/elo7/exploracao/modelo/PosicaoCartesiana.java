@@ -1,11 +1,11 @@
 package br.com.elo7.exploracao.modelo;
 
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
+import static org.springframework.util.Assert.isTrue;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.springframework.util.Assert;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -34,7 +34,7 @@ public class PosicaoCartesiana {
 	@JsonCreator
 	public PosicaoCartesiana(@JsonProperty("eixoX") int eixoX, @JsonProperty("eixoY") int eixoY) {
 
-		Assert.isTrue(eixoX >= 0 && eixoY >= 0, "As coordenadas dos eixos X-Y devem ser iguais ou maior que zero!");
+		isTrue(eixoX >= 0 && eixoY >= 0, "As coordenadas dos eixos X-Y devem ser iguais ou maior que zero!");
 
 		this.eixoX = eixoX;
 		this.eixoY = eixoY;
@@ -65,7 +65,7 @@ public class PosicaoCartesiana {
 	}
 
 	/**
-	 * Realiza o retrocesso em uma unidade de posição no eixo indicado
+	 * Realiza o retrocesso em uma unidade de posição no eixo indicado.
 	 * 
 	 * @param eixo
 	 *            eixo de avanço

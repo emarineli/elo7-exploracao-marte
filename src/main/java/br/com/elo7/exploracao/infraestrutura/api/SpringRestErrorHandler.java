@@ -1,7 +1,7 @@
 package br.com.elo7.exploracao.infraestrutura.api;
 
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
+import br.com.elo7.exploracao.exeception.ColisaoSondaException;
+import br.com.elo7.exploracao.exeception.SondaDuplicadaException;
 import br.com.elo7.exploracao.exeception.SondaNaoEncontradaException;
 
 /**
@@ -38,14 +40,15 @@ public class SpringRestErrorHandler {
 	 * @return entidade com a mensagem de erro.
 	 */
 	@ExceptionHandler({ Exception.class })
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+	@ResponseStatus(INTERNAL_SERVER_ERROR)
 	@ResponseBody
-	public ResponseEntity<MensagemErro> handlerException(final Exception ex) {
+	public ResponseEntity<MensagemRetorno> handlerException(final Exception ex) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add(CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON);
-		return new ResponseEntity<MensagemErro>(
-				criarMensagemErro(ex.getMessage() != null ? ex.getMessage() : "Erro desconhecido."), responseHeaders,
-				HttpStatus.INTERNAL_SERVER_ERROR);
+		return new ResponseEntity<MensagemRetorno>(
+				criarMensagemErro(ex.getMessage() != null ? ex.getMessage()
+						: "Erro desconhecido."), responseHeaders,
+				INTERNAL_SERVER_ERROR);
 	}
 
 	/**
@@ -57,15 +60,18 @@ public class SpringRestErrorHandler {
 	 *            exceção.
 	 * @return entidade com a mensagem de erro.
 	 */
-	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class, IllegalArgumentException.class,
-			JsonProcessingException.class, JsonMappingException.class })
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
+	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class,
+			IllegalArgumentException.class, JsonProcessingException.class,
+			JsonMappingException.class, ColisaoSondaException.class,
+			SondaDuplicadaException.class })
+	@ResponseStatus(BAD_REQUEST)
 	@ResponseBody
-	public ResponseEntity<MensagemErro> handlerBadRequest(final Exception ex) {
+	public ResponseEntity<MensagemRetorno> handlerBadRequest(final Exception ex) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add(CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON);
-		return new ResponseEntity<MensagemErro>(criarMensagemErro(ex.getMessage()), responseHeaders,
-				HttpStatus.BAD_REQUEST);
+		return new ResponseEntity<MensagemRetorno>(
+				criarMensagemErro(ex.getMessage()), responseHeaders,
+				BAD_REQUEST);
 
 	}
 
@@ -77,17 +83,19 @@ public class SpringRestErrorHandler {
 	 * @return entidade com a mensagem de erro.
 	 */
 	@ExceptionHandler({ SondaNaoEncontradaException.class })
-	@ResponseStatus(HttpStatus.NOT_FOUND)
+	@ResponseStatus(NOT_FOUND)
 	@ResponseBody
-	public ResponseEntity<MensagemErro> handlerNotFoundException(final Exception ex) {
+	public ResponseEntity<MensagemRetorno> handlerNotFoundException(
+			final Exception ex) {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add(CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON);
-		return new ResponseEntity<MensagemErro>(criarMensagemErro(ex.getMessage()), responseHeaders,
-				HttpStatus.NOT_FOUND);
+		return new ResponseEntity<MensagemRetorno>(
+				criarMensagemErro(ex.getMessage()), responseHeaders,
+				NOT_FOUND);
 	}
 
-	private MensagemErro criarMensagemErro(String mensagemErro) {
-		return new MensagemErro(mensagemErro);
+	private MensagemRetorno criarMensagemErro(String mensagemErro) {
+		return new MensagemRetorno(mensagemErro);
 	}
 
 }

@@ -12,12 +12,12 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import br.com.elo7.exploracao.VeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.SondaRepositorio;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonRootName;
-
-import br.com.elo7.exploracao.VeiculoExploracao;
-import br.com.elo7.exploracao.repositorio.SondaRepositorio;
 
 /**
  * Representa um veículo de exploração espacial que no caso é um veículo de
@@ -111,7 +111,7 @@ public class Sonda implements VeiculoExploracao {
 			break;
 		}
 
-		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+		this.sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
 
 		return this;
 	}
@@ -123,7 +123,7 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaEquerda() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoEsquerda();
 
-		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+		this.sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
 
 		return this;
 	}
@@ -135,7 +135,7 @@ public class Sonda implements VeiculoExploracao {
 	public Sonda girarParaDireita() {
 		this.direcaoAtual = this.direcaoAtual.obterProximaDirecaoDireita();
 
-		getSondaRepositorio().atualizarPosicaoDirecaoSonda(this);
+		this.sondaRepositorio.atualizarPosicaoDirecaoSonda(this);
 
 		return this;
 	}
@@ -148,24 +148,34 @@ public class Sonda implements VeiculoExploracao {
 	public void setSondaRepositorio(SondaRepositorio sondaRepositorio) {
 		this.sondaRepositorio = sondaRepositorio;
 	}
-	
-	public SondaRepositorio getSondaRepositorio() {
-		return this.sondaRepositorio;
-	}
 
 	@Override
 	public int hashCode() {
-		return HashCodeBuilder.reflectionHashCode(this);
+		return new HashCodeBuilder().append(this.identificadorSonda)
+				.append(this.posicaoAtual).append(this.direcaoAtual)
+				.toHashCode();
 	}
 
 	@Override
 	public boolean equals(Object obj) {
-		return EqualsBuilder.reflectionEquals(this, obj);
+
+		if (obj instanceof Sonda) {
+			final Sonda other = (Sonda) obj;
+
+			return new EqualsBuilder()
+					.append(this.identificadorSonda, other.identificadorSonda)
+					.append(this.posicaoAtual, other.posicaoAtual)
+					.append(this.direcaoAtual, other.direcaoAtual).isEquals();
+
+		} else {
+			return false;
+		}
 	}
 
 	@Override
 	public String toString() {
-		return ToStringBuilder.reflectionToString(this);
+		return new ToStringBuilder(this).append(this.identificadorSonda)
+				.append(this.posicaoAtual).append(this.direcaoAtual).toString();
 	}
 
 }

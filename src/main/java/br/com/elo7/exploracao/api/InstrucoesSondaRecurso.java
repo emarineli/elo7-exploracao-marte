@@ -4,11 +4,12 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import static org.springframework.http.HttpStatus.*;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.elo7.exploracao.modelo.ComandoSonda;
 import br.com.elo7.exploracao.modelo.Sonda;
@@ -35,10 +36,12 @@ public class InstrucoesSondaRecurso {
 	 * @return
 	 */
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/instrucoes", method = POST)
-	public final @ResponseBody Sonda comandarSonda(@PathVariable String identificadorSonda,
+	public final ResponseEntity<Sonda> comandarSonda(
+			@PathVariable String identificadorSonda,
 			@RequestBody ComandoSonda[] comandosSonda) {
 
-		Sonda sonda = sondaRepositorio.obterSondaPeloIdentificador(identificadorSonda);
+		Sonda sonda = sondaRepositorio
+				.obterSondaPeloIdentificador(identificadorSonda);
 
 		for (ComandoSonda comando : comandosSonda) {
 			switch (comando) {
@@ -56,7 +59,7 @@ public class InstrucoesSondaRecurso {
 			}
 		}
 
-		return sonda;
+		return new ResponseEntity<Sonda>(sonda, MOVED_PERMANENTLY);
 	}
 
 }

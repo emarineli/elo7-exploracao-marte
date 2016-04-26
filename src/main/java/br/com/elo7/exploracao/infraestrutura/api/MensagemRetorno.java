@@ -4,6 +4,7 @@ import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -13,12 +14,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * @author emarineli
  *
  */
-public class MensagemErro {
+public class MensagemRetorno {
 
 	@JsonProperty
 	private String mensagem;
-
-	public MensagemErro(String mensagem) {
+	
+	public MensagemRetorno() {}
+	
+	@JsonCreator
+	public MensagemRetorno(String mensagem) {
 		this.mensagem = mensagem;
 	}
 

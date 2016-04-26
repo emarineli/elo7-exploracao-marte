@@ -1,4 +1,4 @@
-package br.com.elo7.exploracao.teste.sonda;
+package br.com.elo7.exploracao.teste.modelo;
 
 import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.DirecaoCardeal.LESTE;

@@ -1,4 +1,4 @@
-package br.com.elo7.exploracao.teste.sonda;
+package br.com.elo7.exploracao.teste.modelo;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
