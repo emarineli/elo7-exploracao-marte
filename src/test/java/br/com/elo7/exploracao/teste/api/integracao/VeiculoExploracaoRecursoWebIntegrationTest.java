@@ -18,6 +18,9 @@ import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
+import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
 import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
@@ -33,11 +36,12 @@ import br.com.elo7.exploracao.modelo.SondaSimples;
 @SpringApplicationConfiguration(classes = ExploracaoMarteApplication.class)
 @WebIntegrationTest({ "server.port=8080", "management.port=9001" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class SondaRecursoWebIntegrationTest {
+public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 	private static final String URI_SONDA_API = "http://localhost:8080/exploracao/v1/sondas";
 
-	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
+	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO,
+			DIRECAO_PADRAO);
 
 	/**
 	 * Realiza a implantação de uma sonda.
@@ -58,8 +62,9 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_a_a_ImplantarSondaJaExistente() {
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(
-				"A sonda com identificador [teste] já está implantada!");
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
+				VeiculoExploracaoDuplicadoException.MENSAGEM,
+				sondaBase.obterIdentificador()));
 
 		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
 				.postForEntity(URI_SONDA_API, sondaBase, MensagemRetorno.class);
@@ -75,13 +80,16 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_a_b_ImplantarSondaNaMesmaPosicao() {
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(
-				"A sonda com identificador [novaSonda] não será implantada para não colidir com sonda existente de identificador [teste]");
+		String identificadorNovaSonda = "novaSonda";
+
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
+				ColisaoVeiculoExploracaoException.MENSAGEM,
+				identificadorNovaSonda, sondaBase.obterIdentificador()));
 
 		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
-				.postForEntity(URI_SONDA_API,
-						new SondaSimples("novaSonda", sondaBase.obterPosicaoAtual(),
-								SUL), MensagemRetorno.class);
+				.postForEntity(URI_SONDA_API, new SondaSimples(
+						identificadorNovaSonda, sondaBase.obterPosicaoAtual(),
+						SUL), MensagemRetorno.class);
 
 		assertEquals(BAD_REQUEST, response.getStatusCode());
 		assertEquals(mensagemEsperada, response.getBody());
@@ -94,8 +102,8 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_b_ObterSonda() {
 
-		ResponseEntity<SondaSimples> response = new TestRestTemplate().getForEntity(
-				URI_SONDA_API + "/teste", SondaSimples.class);
+		ResponseEntity<SondaSimples> response = new TestRestTemplate()
+				.getForEntity(URI_SONDA_API + "/teste", SondaSimples.class);
 
 		assertEquals(OK, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
@@ -118,11 +126,14 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_d_ObterSondaNaoExistente() {
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(
-				"A Sonda com identificador [identificadorInvalido] não pode ser encontrada!");
+		String identificadorSonda = "identificadorInvalido";
+
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
+				VeiculoExploracaoNaoEncontradoException.MENSAGEM,
+				identificadorSonda));
 
 		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
-				.getForEntity(URI_SONDA_API + "/identificadorInvalido",
+				.getForEntity(URI_SONDA_API + "/" + identificadorSonda,
 						MensagemRetorno.class);
 
 		assertEquals(NOT_FOUND, response.getStatusCode());

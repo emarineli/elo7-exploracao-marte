@@ -14,8 +14,10 @@ public class VeiculoExploracaoDuplicadoException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 7424379811698911522L;
 
-	public VeiculoExploracaoDuplicadoException(String mensagem) {
-		super(mensagem);
+	public static final String MENSAGEM = "O Veículo de Exploração com identificador [%s] já está implantado!";
+	
+	public VeiculoExploracaoDuplicadoException(String identificadorVeiculo) {
+		super(String.format(MENSAGEM, identificadorVeiculo));
 	}
 
 }

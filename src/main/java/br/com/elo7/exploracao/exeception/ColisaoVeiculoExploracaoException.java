@@ -14,7 +14,12 @@ public class ColisaoVeiculoExploracaoException extends RuntimeException {
 	 */
 	private static final long serialVersionUID = 5981678401127787892L;
 
-	public ColisaoVeiculoExploracaoException(String mensagem) {
-		super(mensagem);
+	public static final String MENSAGEM = "O Veículo de Exploração com identificador [%s] não será movimentado para não"
+			+ " colidir com outro Veículo de Exploração já existente de identificador [%s]";
+
+	public ColisaoVeiculoExploracaoException(String identificadorVeiculoAtual,
+			String identificadorVeiculoExistente) {
+		super(String.format(MENSAGEM, identificadorVeiculoAtual,
+				identificadorVeiculoExistente));
 	}
 }

@@ -13,14 +13,15 @@ import br.com.elo7.exploracao.modelo.VeiculoExploracao;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
- * Implementação do repositório de VeiculoExploracao. Esta implementação irá persistir os
- * objetos apenas em memória.
+ * Implementação do repositório de VeiculoExploracao. Esta implementação irá
+ * persistir os objetos apenas em memória.
  * 
  * @author emarineli
  *
  */
 @Repository
-public class VeiculoExploracaoRepositorioMemoriaImpl implements VeiculoExploracaoRepositorio {
+public class VeiculoExploracaoRepositorioMemoriaImpl implements
+		VeiculoExploracaoRepositorio {
 
 	/* Os mapas abaixo servirão como repositórios em memória */
 	private Map<String, VeiculoExploracao> repoVeiculoExploracao;
@@ -35,27 +36,31 @@ public class VeiculoExploracaoRepositorioMemoriaImpl implements VeiculoExploraca
 	 * {@inheritDoc}
 	 */
 	@Override
-	public VeiculoExploracao implantarVeiculoExploracao(VeiculoExploracao veiculoExploracao)
-			throws VeiculoExploracaoDuplicadoException, ColisaoVeiculoExploracaoException {
+	public VeiculoExploracao implantarVeiculoExploracao(
+			VeiculoExploracao veiculoExploracao)
+			throws VeiculoExploracaoDuplicadoException,
+			ColisaoVeiculoExploracaoException {
 
-		if (this.repoVeiculoExploracao.containsKey(veiculoExploracao.obterIdentificador())) {
-			throw new VeiculoExploracaoDuplicadoException("O Veículo de Exploração com identificador ["
-					+ veiculoExploracao.obterIdentificador() + "] já está implantado!");
+		if (this.repoVeiculoExploracao.containsKey(veiculoExploracao
+				.obterIdentificador())) {
+			throw new VeiculoExploracaoDuplicadoException(
+					veiculoExploracao.obterIdentificador());
 
 		} else {
 
-			if (this.repoPosicaoVeiculoExploracao.containsKey(veiculoExploracao.obterPosicaoAtual())) {
+			if (this.repoPosicaoVeiculoExploracao.containsKey(veiculoExploracao
+					.obterPosicaoAtual())) {
 				throw new ColisaoVeiculoExploracaoException(
-						"O Veículo de Exploração com identificador ["
-								+ veiculoExploracao.obterIdentificador()
-								+ "] não será implantada para não colidir com outro Veículo de Exploração já existente de identificador ["
-								+ this.repoPosicaoVeiculoExploracao.get(veiculoExploracao
-										.obterPosicaoAtual()) + "]");
+						veiculoExploracao.obterIdentificador(),
+						this.repoPosicaoVeiculoExploracao.get(veiculoExploracao
+								.obterPosicaoAtual()));
 
 			}
 
-			this.repoVeiculoExploracao.put(veiculoExploracao.obterIdentificador(), veiculoExploracao);
-			this.repoPosicaoVeiculoExploracao.put(veiculoExploracao.obterPosicaoAtual(),
+			this.repoVeiculoExploracao.put(
+					veiculoExploracao.obterIdentificador(), veiculoExploracao);
+			this.repoPosicaoVeiculoExploracao.put(
+					veiculoExploracao.obterPosicaoAtual(),
 					veiculoExploracao.obterIdentificador());
 		}
 
@@ -70,10 +75,12 @@ public class VeiculoExploracaoRepositorioMemoriaImpl implements VeiculoExploraca
 
 		if (this.repoVeiculoExploracao.containsKey(identificador)) {
 
-			VeiculoExploracao veiculoExploracao = this.repoVeiculoExploracao.get(identificador);
+			VeiculoExploracao veiculoExploracao = this.repoVeiculoExploracao
+					.get(identificador);
 
 			this.repoVeiculoExploracao.remove(identificador);
-			this.repoPosicaoVeiculoExploracao.remove(veiculoExploracao.obterPosicaoAtual());
+			this.repoPosicaoVeiculoExploracao.remove(veiculoExploracao
+					.obterPosicaoAtual());
 
 			return true;
 		}
@@ -85,27 +92,31 @@ public class VeiculoExploracaoRepositorioMemoriaImpl implements VeiculoExploraca
 	 * {@inheritDoc}
 	 */
 	@Override
-	public VeiculoExploracao obterVeiculoExploracaoPeloIdentificador(String identificador)
+	public VeiculoExploracao obterVeiculoExploracaoPeloIdentificador(
+			String identificador)
 			throws VeiculoExploracaoNaoEncontradoException {
 
 		if (this.repoVeiculoExploracao.containsKey(identificador)) {
 			return this.repoVeiculoExploracao.get(identificador);
 		}
 
-		throw new VeiculoExploracaoNaoEncontradoException("O VeiculoExploracao com identificador ["
-				+ identificador + "] não pode ser encontrada!");
+		throw new VeiculoExploracaoNaoEncontradoException(identificador);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void atualizarPosicaoDirecaoVeiculoExploracao(VeiculoExploracao veiculoExploracao)
-			throws VeiculoExploracaoNaoEncontradoException, ColisaoVeiculoExploracaoException {
+	public void atualizarPosicaoDirecaoVeiculoExploracao(
+			VeiculoExploracao veiculoExploracao)
+			throws VeiculoExploracaoNaoEncontradoException,
+			ColisaoVeiculoExploracaoException {
 
-		String identificadorVeiculoExploracao = veiculoExploracao.obterIdentificador();
+		String identificadorVeiculoExploracao = veiculoExploracao
+				.obterIdentificador();
 
-		if (this.repoVeiculoExploracao.containsKey(identificadorVeiculoExploracao)) {
+		if (this.repoVeiculoExploracao
+				.containsKey(identificadorVeiculoExploracao)) {
 
 			VeiculoExploracao veiculoAtual = this.repoVeiculoExploracao
 					.get(identificadorVeiculoExploracao);
@@ -115,27 +126,27 @@ public class VeiculoExploracaoRepositorioMemoriaImpl implements VeiculoExploraca
 					veiculoExploracao.obterPosicaoAtual())) {
 
 				/* verifica se não vai haver colisão com outro veículo */
-				if (this.repoPosicaoVeiculoExploracao.containsKey(veiculoExploracao
-						.obterPosicaoAtual())) {
+				if (this.repoPosicaoVeiculoExploracao
+						.containsKey(veiculoExploracao.obterPosicaoAtual())) {
 
 					throw new ColisaoVeiculoExploracaoException(
-							"O Veículo de Exploração com identificador ["
-									+ veiculoExploracao.obterIdentificador()
-									+ "] não será movimentada para não colidir com outro Veículo de Exploração já existente de identificador ["
-									+ this.repoPosicaoVeiculoExploracao.get(veiculoExploracao
-											.obterPosicaoAtual()) + "]");
+							veiculoExploracao.obterIdentificador(),
+							this.repoPosicaoVeiculoExploracao
+									.get(veiculoExploracao.obterPosicaoAtual()));
 				}
 
 			}
 
-			this.repoVeiculoExploracao.put(identificadorVeiculoExploracao, veiculoExploracao);
-			this.repoPosicaoVeiculoExploracao.put(veiculoExploracao.obterPosicaoAtual(),
+			this.repoVeiculoExploracao.put(identificadorVeiculoExploracao,
+					veiculoExploracao);
+			this.repoPosicaoVeiculoExploracao.put(
+					veiculoExploracao.obterPosicaoAtual(),
 					identificadorVeiculoExploracao);
 
 		} else {
 
-			throw new VeiculoExploracaoNaoEncontradoException("O VeiculoExploracao com identificador ["
-					+ identificadorVeiculoExploracao + "] não pode ser encontrada!");
+			throw new VeiculoExploracaoNaoEncontradoException(
+					identificadorVeiculoExploracao);
 
 		}
 
