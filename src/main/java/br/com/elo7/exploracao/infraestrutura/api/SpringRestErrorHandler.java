@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
-import br.com.elo7.exploracao.exeception.ColisaoSondaException;
-import br.com.elo7.exploracao.exeception.SondaDuplicadaException;
-import br.com.elo7.exploracao.exeception.SondaNaoEncontradaException;
+import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
+import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 
 /**
  * Handler para o tratamento dos principais erros sistêmicos.
@@ -62,8 +62,8 @@ public class SpringRestErrorHandler {
 	 */
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class,
 			IllegalArgumentException.class, JsonProcessingException.class,
-			JsonMappingException.class, ColisaoSondaException.class,
-			SondaDuplicadaException.class })
+			JsonMappingException.class, ColisaoVeiculoExploracaoException.class,
+			VeiculoExploracaoDuplicadoException.class })
 	@ResponseStatus(BAD_REQUEST)
 	@ResponseBody
 	public ResponseEntity<MensagemRetorno> handlerBadRequest(final Exception ex) {
@@ -82,7 +82,7 @@ public class SpringRestErrorHandler {
 	 *            exceção.
 	 * @return entidade com a mensagem de erro.
 	 */
-	@ExceptionHandler({ SondaNaoEncontradaException.class })
+	@ExceptionHandler({ VeiculoExploracaoNaoEncontradoException.class })
 	@ResponseStatus(NOT_FOUND)
 	@ResponseBody
 	public ResponseEntity<MensagemRetorno> handlerNotFoundException(

@@ -1,19 +1,19 @@
 package br.com.elo7.exploracao.api;
 
+import static org.springframework.http.HttpStatus.MOVED_PERMANENTLY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import static org.springframework.http.HttpStatus.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.elo7.exploracao.modelo.ComandoSonda;
-import br.com.elo7.exploracao.modelo.Sonda;
-import br.com.elo7.exploracao.repositorio.SondaRepositorio;
+import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracao;
+import br.com.elo7.exploracao.modelo.VeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
  * Recurso que define as instruções de comando das Sondas.
@@ -23,10 +23,10 @@ import br.com.elo7.exploracao.repositorio.SondaRepositorio;
  */
 @Controller
 @RequestMapping("/sondas/{identificadorSonda}")
-public class InstrucoesSondaRecurso {
+public class InstrucoesVeiculoExploracaoRecurso {
 
 	@Autowired
-	private SondaRepositorio sondaRepositorio;
+	private VeiculoExploracaoRepositorio sondaRepositorio;
 
 	/**
 	 * Operação responsável por enviar comandos para sonda.
@@ -36,14 +36,14 @@ public class InstrucoesSondaRecurso {
 	 * @return
 	 */
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/instrucoes", method = POST)
-	public final ResponseEntity<Sonda> comandarSonda(
+	public final ResponseEntity<VeiculoExploracao> comandarSonda(
 			@PathVariable String identificadorSonda,
-			@RequestBody ComandoSonda[] comandosSonda) {
+			@RequestBody ComandoVeiculoExploracao[] comandosSonda) {
 
-		Sonda sonda = sondaRepositorio
-				.obterSondaPeloIdentificador(identificadorSonda);
+		VeiculoExploracao sonda = sondaRepositorio
+				.obterVeiculoExploracaoPeloIdentificador(identificadorSonda);
 
-		for (ComandoSonda comando : comandosSonda) {
+		for (ComandoVeiculoExploracao comando : comandosSonda) {
 			switch (comando) {
 			case GIRAR_ESQUERDA:
 				sonda.girarParaEquerda();
@@ -59,7 +59,7 @@ public class InstrucoesSondaRecurso {
 			}
 		}
 
-		return new ResponseEntity<Sonda>(sonda, MOVED_PERMANENTLY);
+		return new ResponseEntity<VeiculoExploracao>(sonda, MOVED_PERMANENTLY);
 	}
 
 }

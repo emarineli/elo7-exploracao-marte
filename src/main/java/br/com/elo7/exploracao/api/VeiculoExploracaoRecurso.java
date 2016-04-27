@@ -1,6 +1,7 @@
 package br.com.elo7.exploracao.api;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CREATED;
+import static org.springframework.http.HttpStatus.OK;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.DELETE;
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
-import br.com.elo7.exploracao.modelo.Sonda;
-import br.com.elo7.exploracao.repositorio.SondaRepositorio;
+import br.com.elo7.exploracao.modelo.VeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
  * API responsável pela manutenção de sondas.
@@ -26,10 +27,10 @@ import br.com.elo7.exploracao.repositorio.SondaRepositorio;
  */
 @Controller
 @RequestMapping("/sondas")
-public class SondaRecurso {
+public class VeiculoExploracaoRecurso {
 
 	@Autowired
-	private SondaRepositorio sondaRepositorio;
+	private VeiculoExploracaoRepositorio sondaRepositorio;
 
 	/**
 	 * Operação responsável por criar e implantar uma sonda.
@@ -39,24 +40,24 @@ public class SondaRecurso {
 	 * @return sonda implantada.
 	 */
 	@RequestMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE }, method = POST)
-	public final ResponseEntity<Sonda> implantarSonda(@RequestBody Sonda sonda) {
+	public final ResponseEntity<VeiculoExploracao> implantarVeiculoExploracao(@RequestBody VeiculoExploracao sonda) {
 
-		return new ResponseEntity<Sonda>(
-				sondaRepositorio.implantarSonda(sonda), CREATED);
+		return new ResponseEntity<VeiculoExploracao>(
+				sondaRepositorio.implantarVeiculoExploracao(sonda), CREATED);
 	}
 
 	/**
 	 * Operação responsável por obter uma sonda pelo seu identificador interno.
 	 * 
-	 * @param identificadorSonda
+	 * @param identificadorVeiculoExploracao
 	 *            identificador da sonda.
 	 * @return representação da sonda.
 	 */
-	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorSonda}", method = GET)
-	public final @ResponseBody Sonda obterSondaImplantada(
-			@PathVariable String identificadorSonda) {
+	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorVeiculoExploracao}", method = GET)
+	public final @ResponseBody VeiculoExploracao obterVeiculoExploracaoImplantada(
+			@PathVariable String identificadorVeiculoExploracao) {
 
-		return sondaRepositorio.obterSondaPeloIdentificador(identificadorSonda);
+		return sondaRepositorio.obterVeiculoExploracaoPeloIdentificador(identificadorVeiculoExploracao);
 	}
 
 	/**
@@ -65,17 +66,17 @@ public class SondaRecurso {
 	 * Esta operação tem o intúito de ser idempotente. Mesmo que uma sonda não
 	 * for encontrada para remoção o resultado final se mantém o mesmo.
 	 * 
-	 * @param identificadorSonda
+	 * @param identificadorVeiculoExploracao
 	 *            identificador da sonda.
 	 * @return representação da sonda.
 	 */
-	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorSonda}", method = DELETE)
-	public final ResponseEntity<MensagemRetorno> removerSondaImplantada(
-			@PathVariable String identificadorSonda) {
+	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorVeiculoExploracao}", method = DELETE)
+	public final ResponseEntity<MensagemRetorno> removerVeiculoExploracaoImplantada(
+			@PathVariable String identificadorVeiculoExploracao) {
 
-		sondaRepositorio.removerSonda(identificadorSonda);
+		sondaRepositorio.removerVeiculoExploracao(identificadorVeiculoExploracao);
 
 		return new ResponseEntity<MensagemRetorno>(new MensagemRetorno(
-				"Sonda removida"), OK);
+				"VeiculoExploracao removida"), OK);
 	}
 }

@@ -17,8 +17,8 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
-import br.com.elo7.exploracao.modelo.Sonda;
-import br.com.elo7.exploracao.repositorio.impl.SondaRepositorioMemoriaImpl;
+import br.com.elo7.exploracao.modelo.SondaSimples;
+import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
 
 /**
  * Classe de testes sobre a entidade Sonda
@@ -30,9 +30,9 @@ import br.com.elo7.exploracao.repositorio.impl.SondaRepositorioMemoriaImpl;
 public class SondaTest {
 
 	@Mock
-	private SondaRepositorioMemoriaImpl repoMock;
+	private VeiculoExploracaoRepositorioMemoriaImpl repoMock;
 
-	private final Sonda sondaBase = new Sonda("sondaTeste", POSICAO_PADRAO,
+	private final SondaSimples sondaBase = new SondaSimples("sondaTeste", POSICAO_PADRAO,
 			DIRECAO_PADRAO);
 
 	@Before
@@ -45,7 +45,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testIgualdadeObjeto() {
-		assertEquals(sondaBase, new Sonda("sondaTeste", POSICAO_PADRAO,
+		assertEquals(sondaBase, new SondaSimples("sondaTeste", POSICAO_PADRAO,
 				DIRECAO_PADRAO));
 	}
 
@@ -55,7 +55,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorIdentificador() {
-		assertNotEquals(sondaBase, new Sonda("sonda", POSICAO_PADRAO,
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO,
 				DIRECAO_PADRAO));
 	}
 
@@ -65,7 +65,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorPosicao() {
-		assertNotEquals(sondaBase, new Sonda("sonda", new PosicaoCartesiana(1,
+		assertNotEquals(sondaBase, new SondaSimples("sonda", new PosicaoCartesiana(1,
 				1), DIRECAO_PADRAO));
 	}
 
@@ -74,7 +74,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorDirecao() {
-		assertNotEquals(sondaBase, new Sonda("sonda", POSICAO_PADRAO, SUL));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO, SUL));
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class SondaTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testCriacaoFalhaSondaPorIdentificadorNulo() {
-		new Sonda(null, POSICAO_PADRAO, DIRECAO_PADRAO);
+		new SondaSimples(null, POSICAO_PADRAO, DIRECAO_PADRAO);
 	}
 
 	/**
@@ -90,7 +90,7 @@ public class SondaTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testCriacaoFalhaSondaPorIdentificadorVazio() {
-		new Sonda(" ", POSICAO_PADRAO, DIRECAO_PADRAO);
+		new SondaSimples(" ", POSICAO_PADRAO, DIRECAO_PADRAO);
 	}
 
 	/**
@@ -100,7 +100,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testCriacaoSondaPorPosicaoNula() {
-		assertNotEquals(sondaBase, new Sonda("sonda", null, NORTE));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", null, NORTE));
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testCriacaoSondaPorDirecaoNula() {
-		assertNotEquals(sondaBase, new Sonda("sonda", POSICAO_PADRAO, null));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO, null));
 	}
 
 	/**
@@ -122,7 +122,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testCriacaoSondaPorDirecaoEPosicaoNula() {
-		assertNotEquals(sondaBase, new Sonda("sonda", null, null));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", null, null));
 	}
 
 	/**
@@ -148,9 +148,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaEsquerdaComDirecaoAtualNorte() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaEquerda();
 
 		assertEquals(OESTE, sonda.obterDirecaoAtual());
@@ -163,9 +163,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaEsquerdaComDirecaoAtualSul() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, SUL);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, SUL);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaEquerda();
 
 		assertEquals(LESTE, sonda.obterDirecaoAtual());
@@ -178,9 +178,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaEsquerdaComDirecaoAtualLeste() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, LESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, LESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaEquerda();
 
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
@@ -193,9 +193,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaEsquerdaComDirecaoAtualOeste() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, OESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, OESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaEquerda();
 
 		assertEquals(SUL, sonda.obterDirecaoAtual());
@@ -208,9 +208,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaDireitaComDirecaoAtualNorte() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaDireita();
 
 		assertEquals(LESTE, sonda.obterDirecaoAtual());
@@ -223,9 +223,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaDireitaComDirecaoAtualSul() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, SUL);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, SUL);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaDireita();
 
 		assertEquals(OESTE, sonda.obterDirecaoAtual());
@@ -238,9 +238,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaDireitaComDirecaoAtualLeste() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, LESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, LESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaDireita();
 
 		assertEquals(SUL, sonda.obterDirecaoAtual());
@@ -253,9 +253,9 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaDireitaComDirecaoAtualOeste() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, OESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, OESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.girarParaDireita();
 
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
@@ -271,9 +271,9 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaNorte() {
 
-		Sonda sonda = new Sonda("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.movimentar();
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
@@ -288,9 +288,9 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaSul() {
 
-		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(0, 2), SUL);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(0, 2), SUL);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.movimentar();
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
@@ -306,9 +306,9 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaLeste() {
 
-		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(2, 2), LESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), LESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.movimentar();
 
 		assertEquals(new PosicaoCartesiana(3, 2), sonda.obterPosicaoAtual());
@@ -324,9 +324,9 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaOeste() {
 
-		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(2, 2), OESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), OESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
 		sonda.movimentar();
 
 		assertEquals(new PosicaoCartesiana(1, 2), sonda.obterPosicaoAtual());
@@ -346,12 +346,12 @@ public class SondaTest {
 	@Test
 	public void testCasoPrimeiroExemploExercicio() {
 
-		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(1, 2), NORTE);
-		sonda.setSondaRepositorio(repoMock);
-		
-		sonda = sonda.girarParaEquerda().movimentar().girarParaEquerda()
-				.movimentar().girarParaEquerda().movimentar()
-				.girarParaEquerda().movimentar().movimentar();
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), NORTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
+		sonda = (SondaSimples) sonda.girarParaEquerda().movimentar()
+				.girarParaEquerda().movimentar().girarParaEquerda()
+				.movimentar().girarParaEquerda().movimentar().movimentar();
 
 		assertEquals(new PosicaoCartesiana(1, 3), sonda.obterPosicaoAtual());
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
@@ -372,11 +372,11 @@ public class SondaTest {
 	@Test
 	public void testCasoSegundoExemploExercicio() {
 
-		Sonda sonda = new Sonda("teste", new PosicaoCartesiana(3, 3), LESTE);
-		sonda.setSondaRepositorio(repoMock);
-		
-		sonda = sonda.movimentar().movimentar().girarParaDireita().movimentar()
-				.movimentar().girarParaDireita().movimentar()
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(3, 3), LESTE);
+		sonda.setVeiculoExploracaoRepositorio(repoMock);
+
+		sonda = (SondaSimples) sonda.movimentar().movimentar().girarParaDireita()
+				.movimentar().movimentar().girarParaDireita().movimentar()
 				.girarParaDireita().girarParaDireita().movimentar();
 
 		assertEquals(new PosicaoCartesiana(5, 1), sonda.obterPosicaoAtual());

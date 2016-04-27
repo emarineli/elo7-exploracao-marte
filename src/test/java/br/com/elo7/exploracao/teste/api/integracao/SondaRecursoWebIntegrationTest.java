@@ -21,7 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
 import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
-import br.com.elo7.exploracao.modelo.Sonda;
+import br.com.elo7.exploracao.modelo.SondaSimples;
 
 /**
  * Testes de integração da API de recusos de Sonda.
@@ -37,7 +37,7 @@ public class SondaRecursoWebIntegrationTest {
 
 	private static final String URI_SONDA_API = "http://localhost:8080/exploracao/v1/sondas";
 
-	private Sonda sondaBase = new Sonda("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
+	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 
 	/**
 	 * Realiza a implantação de uma sonda.
@@ -45,7 +45,7 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_a_ImplantarSonda() {
 
-		ResponseEntity<Sonda> response = criarSondaBase();
+		ResponseEntity<SondaSimples> response = criarSondaBase();
 
 		assertEquals(CREATED, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
@@ -80,7 +80,7 @@ public class SondaRecursoWebIntegrationTest {
 
 		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
 				.postForEntity(URI_SONDA_API,
-						new Sonda("novaSonda", sondaBase.obterPosicaoAtual(),
+						new SondaSimples("novaSonda", sondaBase.obterPosicaoAtual(),
 								SUL), MensagemRetorno.class);
 
 		assertEquals(BAD_REQUEST, response.getStatusCode());
@@ -94,8 +94,8 @@ public class SondaRecursoWebIntegrationTest {
 	@Test
 	public void test_b_ObterSonda() {
 
-		ResponseEntity<Sonda> response = new TestRestTemplate().getForEntity(
-				URI_SONDA_API + "/teste", Sonda.class);
+		ResponseEntity<SondaSimples> response = new TestRestTemplate().getForEntity(
+				URI_SONDA_API + "/teste", SondaSimples.class);
 
 		assertEquals(OK, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
@@ -130,10 +130,10 @@ public class SondaRecursoWebIntegrationTest {
 
 	}
 
-	private ResponseEntity<Sonda> criarSondaBase() {
+	private ResponseEntity<SondaSimples> criarSondaBase() {
 
 		return new TestRestTemplate().postForEntity(URI_SONDA_API, sondaBase,
-				Sonda.class);
+				SondaSimples.class);
 
 	}
 }

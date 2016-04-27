@@ -7,14 +7,14 @@ package br.com.elo7.exploracao.exeception;
  * @author emarineli
  *
  */
-public class ColisaoSondaException extends RuntimeException {
+public class ColisaoVeiculoExploracaoException extends RuntimeException {
 
 	/**
 	 * Serial gerado.
 	 */
 	private static final long serialVersionUID = 5981678401127787892L;
 
-	public ColisaoSondaException(String mensagem) {
+	public ColisaoVeiculoExploracaoException(String mensagem) {
 		super(mensagem);
 	}
 }

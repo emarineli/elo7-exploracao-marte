@@ -2,22 +2,26 @@ package br.com.elo7.exploracao.modelo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
-import br.com.elo7.exploracao.infraestrutura.serializer.ComandoSondaTypeDeserializer;
+import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracaoTypeDeserializer;
 
 /**
- * Enumerador que contém os possíveis comandos que uma sonda pode receber.
+ * Enumerador que contém os possíveis comandos que um veículo de exploração pode
+ * receber.
+ * 
+ * Um deserializador é necessário pois os comandos serão enviados pela
+ * representação simplificada em string.
  * 
  * @author emarineli
  *
  */
-@JsonDeserialize(using = ComandoSondaTypeDeserializer.class)
-public enum ComandoSonda {
+@JsonDeserialize(using = ComandoVeiculoExploracaoTypeDeserializer.class)
+public enum ComandoVeiculoExploracao {
 
 	GIRAR_ESQUERDA("E"), GIRAR_DIREITA("D"), MOVER("M");
 
 	private String representacaoString;
 
-	private ComandoSonda(String representacaoString) {
+	private ComandoVeiculoExploracao(String representacaoString) {
 		this.representacaoString = representacaoString;
 	}
 
@@ -32,9 +36,10 @@ public enum ComandoSonda {
 	 *            representação em string do comando.
 	 * @return comando caso tenha sido encontrado.
 	 */
-	public static ComandoSonda obterDirecaoPorRepresentacao(String representacaoString) {
+	public static ComandoVeiculoExploracao obterDirecaoPorRepresentacao(
+			String representacaoString) {
 
-		for (ComandoSonda comando : values()) {
+		for (ComandoVeiculoExploracao comando : values()) {
 			if (comando.obterRepresentacaoString().equals(representacaoString)) {
 				return comando;
 			}

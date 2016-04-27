@@ -7,14 +7,14 @@ package br.com.elo7.exploracao.exeception;
  * @author emarineli
  *
  */
-public class SondaDuplicadaException extends RuntimeException {
+public class VeiculoExploracaoDuplicadoException extends RuntimeException {
 
 	/**
 	 * Serial gerado.
 	 */
 	private static final long serialVersionUID = 7424379811698911522L;
 
-	public SondaDuplicadaException(String mensagem) {
+	public VeiculoExploracaoDuplicadoException(String mensagem) {
 		super(mensagem);
 	}
 
