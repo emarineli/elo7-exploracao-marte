@@ -1,6 +1,6 @@
 package br.com.elo7.exploracao.teste.api.integracao;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -23,7 +23,7 @@ import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.*;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 
 /**

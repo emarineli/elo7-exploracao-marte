@@ -9,7 +9,7 @@ package br.com.elo7.exploracao.modelo;
  * @author emarineli
  *
  */
-public enum DirecaoCardeal {
+public enum DirecaoCardealEnum {
 
 	/*
 	 * Os enumeradores já são definidos com suas orientações a 90 graus à
@@ -21,7 +21,7 @@ public enum DirecaoCardeal {
 	private String proximaDirecaoEsquerda;
 	private String proximaDirecaoDireita;
 
-	public static DirecaoCardeal DIRECAO_PADRAO = DirecaoCardeal.NORTE;
+	public static DirecaoCardealEnum DIRECAO_PADRAO = DirecaoCardealEnum.NORTE;
 
 	/**
 	 * Cria uma direção cardeal
@@ -35,7 +35,7 @@ public enum DirecaoCardeal {
 	 *            representação em string da próxima direçção a 90 graus à
 	 *            direita.
 	 */
-	private DirecaoCardeal(String representacaoString, String proximaDirecaoEsquerda, String proximaDirecaoDireita) {
+	private DirecaoCardealEnum(String representacaoString, String proximaDirecaoEsquerda, String proximaDirecaoDireita) {
 		this.representacaoString = representacaoString;
 		this.proximaDirecaoDireita = proximaDirecaoDireita;
 		this.proximaDirecaoEsquerda = proximaDirecaoEsquerda;
@@ -60,9 +60,9 @@ public enum DirecaoCardeal {
 	 *            representação em string da direção cardeal.
 	 * @return direção caso tenha sido encontrada.
 	 */
-	public DirecaoCardeal obterDirecaoPorRepresentacao(String representacaoString) {
+	public DirecaoCardealEnum obterDirecaoPorRepresentacao(String representacaoString) {
 
-		for (DirecaoCardeal direcao : values()) {
+		for (DirecaoCardealEnum direcao : values()) {
 			if (direcao.obterRepresentacaoString().equals(representacaoString)) {
 				return direcao;
 			}
@@ -78,7 +78,7 @@ public enum DirecaoCardeal {
 	 * 
 	 * @return próxima direção cardeal à esquerda da direção atual.
 	 */
-	public DirecaoCardeal obterProximaDirecaoEsquerda() {
+	public DirecaoCardealEnum obterProximaDirecaoEsquerda() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoEsquerda);
 	}
 
@@ -89,7 +89,7 @@ public enum DirecaoCardeal {
 	 * 
 	 * @return próxima direção cardeal à direita da direção atual.
 	 */
-	public DirecaoCardeal obterProximaDirecaoDireita() {
+	public DirecaoCardealEnum obterProximaDirecaoDireita() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoDireita);
 	}
 

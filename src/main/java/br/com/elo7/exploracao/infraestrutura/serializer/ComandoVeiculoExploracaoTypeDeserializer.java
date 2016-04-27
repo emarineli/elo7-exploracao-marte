@@ -7,7 +7,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.DeserializationContext;
 import com.fasterxml.jackson.databind.JsonDeserializer;
 
-import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracao;
+import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracaoEnum;
 
 /**
  * Deserializador que transforma a representação simplificada em string de um
@@ -16,16 +16,16 @@ import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracao;
  * @author emarineli
  *
  */
-public class ComandoVeiculoExploracaoTypeDeserializer extends JsonDeserializer<ComandoVeiculoExploracao> {
+public class ComandoVeiculoExploracaoTypeDeserializer extends JsonDeserializer<ComandoVeiculoExploracaoEnum> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ComandoVeiculoExploracao deserialize(JsonParser p, DeserializationContext ctxt)
+	public ComandoVeiculoExploracaoEnum deserialize(JsonParser p, DeserializationContext ctxt)
 			throws IOException, JsonProcessingException {
 
-		ComandoVeiculoExploracao cs = ComandoVeiculoExploracao.obterDirecaoPorRepresentacao(p.getText());
+		ComandoVeiculoExploracaoEnum cs = ComandoVeiculoExploracaoEnum.obterDirecaoPorRepresentacao(p.getText());
 
 		if (cs == null) {
 			throw new IllegalArgumentException("A representação simplificada do comando de sonda [" + p.getText()

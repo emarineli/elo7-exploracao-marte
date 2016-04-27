@@ -1,6 +1,6 @@
 package br.com.elo7.exploracao.modelo;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.Y;
@@ -12,6 +12,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import br.com.elo7.exploracao.modelo.comando.ComandoVeiculoExploracao;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -37,13 +38,13 @@ public abstract class VeiculoExploracao {
 	private PosicaoCartesiana posicaoAtual;
 
 	@JsonProperty
-	private DirecaoCardeal direcaoAtual;
+	private DirecaoCardealEnum direcaoAtual;
 
 	@Autowired
 	private VeiculoExploracaoRepositorio veiculoExploracaoRepositorio;
 
 	public VeiculoExploracao(String identificadorVeiculoExploracao,
-			PosicaoCartesiana posicaoInicial, DirecaoCardeal direcaoInicial) {
+			PosicaoCartesiana posicaoInicial, DirecaoCardealEnum direcaoInicial) {
 
 		hasText(identificadorVeiculoExploracao,
 				"O Veiculo de Exploracao deve possuir um identificador!");
@@ -63,8 +64,39 @@ public abstract class VeiculoExploracao {
 		return this.posicaoAtual;
 	}
 
-	public DirecaoCardeal obterDirecaoAtual() {
+	public void ajustarPosicaoAtual(PosicaoCartesiana novaPosicao) {
+		this.posicaoAtual = novaPosicao;
+	}
+
+	public DirecaoCardealEnum obterDirecaoAtual() {
 		return this.direcaoAtual;
+	}
+
+	public void ajustarDirecaoAtual(DirecaoCardealEnum novaDirecao) {
+		this.direcaoAtual = novaDirecao;
+	}
+
+	public VeiculoExploracao processarComando(ComandoVeiculoExploracao comando) {
+
+		comando.execute();
+
+		this.veiculoExploracaoRepositorio
+				.atualizarPosicaoDirecaoVeiculoExploracao(this);
+
+		return this;
+
+	}
+
+	public void processarComandos(ComandoVeiculoExploracao[] comandos) {
+		for (ComandoVeiculoExploracao comando : comandos) {
+
+			comando.execute();
+
+			/* Atualização é feita por comando */
+			this.veiculoExploracaoRepositorio
+					.atualizarPosicaoDirecaoVeiculoExploracao(this);
+
+		}
 	}
 
 	/**
@@ -112,7 +144,7 @@ public abstract class VeiculoExploracao {
 	 * 
 	 * @return inteiro positivo que indica o valor de avanço nos eixos X e Y.
 	 */
-	abstract int obterAvancoPadrao();
+	public abstract int obterAvancoPadrao();
 
 	/**
 	 * Realiza um giro de 90 graus de sua direão cardeal para a esquerda.

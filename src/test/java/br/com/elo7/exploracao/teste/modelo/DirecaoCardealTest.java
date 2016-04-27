@@ -3,7 +3,7 @@ package br.com.elo7.exploracao.teste.modelo;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.*;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.*;
 
 /**
  * Conjunto de testes relacionados ao enumerador de Direção Cardeal

@@ -1,9 +1,9 @@
 package br.com.elo7.exploracao.teste.repositorio;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.LESTE;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.NORTE;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.SUL;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.LESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.NORTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.SUL;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;

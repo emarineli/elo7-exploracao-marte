@@ -1,10 +1,10 @@
 package br.com.elo7.exploracao.teste.modelo;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.DIRECAO_PADRAO;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.LESTE;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.NORTE;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.OESTE;
-import static br.com.elo7.exploracao.modelo.DirecaoCardeal.SUL;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.LESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.NORTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.OESTE;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.SUL;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -18,6 +18,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
+import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
 
 /**
@@ -274,7 +275,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.movimentar();
+		sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
 	}
@@ -291,7 +292,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(0, 2), SUL);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.movimentar();
+		sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
 	}
@@ -309,7 +310,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.movimentar();
+		sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
 
 		assertEquals(new PosicaoCartesiana(3, 2), sonda.obterPosicaoAtual());
 	}
@@ -327,7 +328,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), OESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.movimentar();
+		sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
 
 		assertEquals(new PosicaoCartesiana(1, 2), sonda.obterPosicaoAtual());
 	}

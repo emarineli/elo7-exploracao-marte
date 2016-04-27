@@ -15,13 +15,13 @@ import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracao
  *
  */
 @JsonDeserialize(using = ComandoVeiculoExploracaoTypeDeserializer.class)
-public enum ComandoVeiculoExploracao {
+public enum ComandoVeiculoExploracaoEnum {
 
 	GIRAR_ESQUERDA("E"), GIRAR_DIREITA("D"), MOVER("M");
 
 	private String representacaoString;
 
-	private ComandoVeiculoExploracao(String representacaoString) {
+	private ComandoVeiculoExploracaoEnum(String representacaoString) {
 		this.representacaoString = representacaoString;
 	}
 
@@ -36,10 +36,10 @@ public enum ComandoVeiculoExploracao {
 	 *            representação em string do comando.
 	 * @return comando caso tenha sido encontrado.
 	 */
-	public static ComandoVeiculoExploracao obterDirecaoPorRepresentacao(
+	public static ComandoVeiculoExploracaoEnum obterDirecaoPorRepresentacao(
 			String representacaoString) {
 
-		for (ComandoVeiculoExploracao comando : values()) {
+		for (ComandoVeiculoExploracaoEnum comando : values()) {
 			if (comando.obterRepresentacaoString().equals(representacaoString)) {
 				return comando;
 			}

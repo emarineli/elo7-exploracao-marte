@@ -32,7 +32,7 @@ public class SondaSimples extends VeiculoExploracao {
 	@JsonCreator
 	public SondaSimples(@JsonProperty("identificadorVeiculoExploracao") String identificadorSonda,
 			@JsonProperty("posicaoAtual") PosicaoCartesiana posicaoInicial,
-			@JsonProperty("direcaoAtual") DirecaoCardeal direcaoInicial) {
+			@JsonProperty("direcaoAtual") DirecaoCardealEnum direcaoInicial) {
 
 		super(identificadorSonda, posicaoInicial, direcaoInicial);
 
@@ -44,7 +44,7 @@ public class SondaSimples extends VeiculoExploracao {
 	 * {@inheritDoc}
 	 */
 	@Override
-	int obterAvancoPadrao() {
+	public int obterAvancoPadrao() {
 		return AVANCO_PADRAO;
 	}
 

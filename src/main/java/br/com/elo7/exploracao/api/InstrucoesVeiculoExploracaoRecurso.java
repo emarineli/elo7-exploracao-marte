@@ -11,8 +11,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracao;
+import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracaoEnum;
 import br.com.elo7.exploracao.modelo.VeiculoExploracao;
+import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
@@ -38,12 +39,12 @@ public class InstrucoesVeiculoExploracaoRecurso {
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/instrucoes", method = POST)
 	public final ResponseEntity<VeiculoExploracao> comandarSonda(
 			@PathVariable String identificadorSonda,
-			@RequestBody ComandoVeiculoExploracao[] comandosSonda) {
+			@RequestBody ComandoVeiculoExploracaoEnum[] comandosSonda) {
 
 		VeiculoExploracao sonda = sondaRepositorio
 				.obterVeiculoExploracaoPeloIdentificador(identificadorSonda);
 
-		for (ComandoVeiculoExploracao comando : comandosSonda) {
+		for (ComandoVeiculoExploracaoEnum comando : comandosSonda) {
 			switch (comando) {
 			case GIRAR_ESQUERDA:
 				sonda.girarParaEquerda();
@@ -53,7 +54,7 @@ public class InstrucoesVeiculoExploracaoRecurso {
 				break;
 
 			case MOVER:
-				sonda.movimentar();
+				sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
 				break;
 
 			}
