@@ -25,6 +25,7 @@ import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
 import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.*;
 import br.com.elo7.exploracao.modelo.SondaSimples;
+import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
 /**
  * Testes de integração da API de recusos de Sonda.
@@ -39,6 +40,7 @@ import br.com.elo7.exploracao.modelo.SondaSimples;
 public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 	private static final String URI_SONDA_API = "http://localhost:8080/exploracao/v1/sondas";
+	private static final String URI_TERRENO_API = "http://localhost:8080/exploracao/v1/terreno";
 
 	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO,
 			DIRECAO_PADRAO);
@@ -49,8 +51,14 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	@Test
 	public void test_a_ImplantarSonda() {
 
-		ResponseEntity<SondaSimples> response = criarSondaBase();
+		TerrenoExploracao terreno = new TerrenoExploracao(10, 10);
+		
+		new TestRestTemplate().postForEntity(URI_TERRENO_API,
+				terreno, TerrenoExploracao.class);
 
+		ResponseEntity<SondaSimples> response = criarSondaBase();
+		sondaBase.associarTerrenoExploracao(terreno);
+		
 		assertEquals(CREATED, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
 
@@ -102,9 +110,13 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	@Test
 	public void test_b_ObterSonda() {
 
+		TerrenoExploracao terreno = new TerrenoExploracao(10, 10);
+		
 		ResponseEntity<SondaSimples> response = new TestRestTemplate()
 				.getForEntity(URI_SONDA_API + "/teste", SondaSimples.class);
 
+		sondaBase.associarTerrenoExploracao(terreno);
+		
 		assertEquals(OK, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
 

@@ -9,14 +9,16 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
+import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 import br.com.elo7.exploracao.modelo.VeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.TerrenoExploracaoRepositorio;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
@@ -25,12 +27,15 @@ import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
  * @author emarineli
  *
  */
-@Controller
+@RestController
 @RequestMapping("/sondas")
-public class VeiculoExploracaoRecurso {
+public class VeiculoExploracaoRestController {
 
 	@Autowired
 	private VeiculoExploracaoRepositorio sondaRepositorio;
+
+	@Autowired
+	private TerrenoExploracaoRepositorio terrenoExploracaoRepositorio;
 
 	/**
 	 * Operação responsável por criar e implantar uma sonda.
@@ -40,7 +45,13 @@ public class VeiculoExploracaoRecurso {
 	 * @return sonda implantada.
 	 */
 	@RequestMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE }, method = POST)
-	public final ResponseEntity<VeiculoExploracao> implantarVeiculoExploracao(@RequestBody VeiculoExploracao sonda) {
+	public final ResponseEntity<VeiculoExploracao> implantarVeiculoExploracao(
+			@RequestBody VeiculoExploracao sonda) {
+
+		/* Para cada sonda criada, um terreno de exploração deve ser associado. */
+		TerrenoExploracao terrenoExploracao = terrenoExploracaoRepositorio
+				.obterTerrenoExploracao();
+		sonda.associarTerrenoExploracao(terrenoExploracao);
 
 		return new ResponseEntity<VeiculoExploracao>(
 				sondaRepositorio.implantarVeiculoExploracao(sonda), CREATED);
@@ -57,7 +68,8 @@ public class VeiculoExploracaoRecurso {
 	public final @ResponseBody VeiculoExploracao obterVeiculoExploracaoImplantada(
 			@PathVariable String identificadorVeiculoExploracao) {
 
-		return sondaRepositorio.obterVeiculoExploracaoPeloIdentificador(identificadorVeiculoExploracao);
+		return sondaRepositorio
+				.obterVeiculoExploracaoPeloIdentificador(identificadorVeiculoExploracao);
 	}
 
 	/**
@@ -74,7 +86,8 @@ public class VeiculoExploracaoRecurso {
 	public final ResponseEntity<MensagemRetorno> removerVeiculoExploracaoImplantada(
 			@PathVariable String identificadorVeiculoExploracao) {
 
-		sondaRepositorio.removerVeiculoExploracao(identificadorVeiculoExploracao);
+		sondaRepositorio
+				.removerVeiculoExploracao(identificadorVeiculoExploracao);
 
 		return new ResponseEntity<MensagemRetorno>(new MensagemRetorno(
 				"VeiculoExploracao removida"), OK);

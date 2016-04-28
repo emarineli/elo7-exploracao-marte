@@ -1,5 +1,6 @@
 package br.com.elo7.exploracao.modelo.comando;
 
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.Y;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
@@ -23,6 +24,9 @@ public class MovimentarVeiculoExploracaoComando implements
 		int avanco = veiculo.obterAvancoPadrao();
 		PosicaoCartesiana posicaoAtual = veiculo.obterPosicaoAtual();
 
+		PosicaoCartesiana posicaoTerreno = veiculo
+				.obterTerrenoExploracaoAssociado().obterExtensao();
+
 		/* O eixo da movimentação irá depender da direção atual */
 		switch (veiculo.obterDirecaoAtual()) {
 
@@ -43,7 +47,18 @@ public class MovimentarVeiculoExploracaoComando implements
 			break;
 		}
 
-		veiculo.ajustarPosicaoAtual(posicaoAtual);
+		/* Verifica se a nova posição é inválida */
+		if (!(posicaoAtual.getEixoY() > posicaoTerreno.getEixoY()
+				|| posicaoAtual.getEixoX() > posicaoTerreno.getEixoX()
+				|| posicaoAtual.getEixoY() < POSICAO_PADRAO.getEixoY() || posicaoAtual
+				.getEixoX() < POSICAO_PADRAO.getEixoX())) {
+
+			veiculo.ajustarPosicaoAtual(posicaoAtual);
+		} else {
+			throw new IllegalArgumentException(
+					"A nova posição ultrapassa os limites do terreno. Ajuste os comandos!");
+		}
+
 	}
 
 }

@@ -1,7 +1,9 @@
 package br.com.elo7.exploracao.infraestrutura.api;
 
 import org.springframework.http.HttpHeaders;
+
 import static org.springframework.http.HttpStatus.*;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.HttpMediaTypeNotSupportedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,6 +15,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 
 import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exeception.TerrenoExploracaoJaCriadoException;
+import br.com.elo7.exploracao.exeception.TerrenoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 
@@ -62,8 +66,10 @@ public class SpringRestErrorHandler {
 	 */
 	@ExceptionHandler({ HttpMediaTypeNotSupportedException.class,
 			IllegalArgumentException.class, JsonProcessingException.class,
-			JsonMappingException.class, ColisaoVeiculoExploracaoException.class,
-			VeiculoExploracaoDuplicadoException.class })
+			JsonMappingException.class,
+			ColisaoVeiculoExploracaoException.class,
+			VeiculoExploracaoDuplicadoException.class,
+			TerrenoExploracaoJaCriadoException.class })
 	@ResponseStatus(BAD_REQUEST)
 	@ResponseBody
 	public ResponseEntity<MensagemRetorno> handlerBadRequest(final Exception ex) {
@@ -82,7 +88,8 @@ public class SpringRestErrorHandler {
 	 *            exceção.
 	 * @return entidade com a mensagem de erro.
 	 */
-	@ExceptionHandler({ VeiculoExploracaoNaoEncontradoException.class })
+	@ExceptionHandler({ VeiculoExploracaoNaoEncontradoException.class,
+			TerrenoExploracaoNaoEncontradoException.class })
 	@ResponseStatus(NOT_FOUND)
 	@ResponseBody
 	public ResponseEntity<MensagemRetorno> handlerNotFoundException(
@@ -90,8 +97,7 @@ public class SpringRestErrorHandler {
 		HttpHeaders responseHeaders = new HttpHeaders();
 		responseHeaders.add(CONTENT_TYPE, CONTENT_TYPE_APPLICATION_JSON);
 		return new ResponseEntity<MensagemRetorno>(
-				criarMensagemErro(ex.getMessage()), responseHeaders,
-				NOT_FOUND);
+				criarMensagemErro(ex.getMessage()), responseHeaders, NOT_FOUND);
 	}
 
 	private MensagemRetorno criarMensagemErro(String mensagemErro) {

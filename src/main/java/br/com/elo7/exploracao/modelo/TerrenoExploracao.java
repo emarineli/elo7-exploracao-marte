@@ -1,11 +1,12 @@
 package br.com.elo7.exploracao.modelo;
 
+import static org.springframework.util.Assert.isTrue;
+
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 
-import static org.springframework.util.Assert.isTrue;
-
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
@@ -16,10 +17,13 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  * 
  * O ponto mínimo tem os valores nos eixos X = 0 e Y = 0.
  * 
+ * Será permitida a criação de apenas uma instância desta classe para
+ * representar um terreno de exploração para todas as sondas.
+ * 
  * @author talent.emarineli
  *
  */
-public class Terreno {
+public class TerrenoExploracao {
 
 	@JsonProperty
 	private PosicaoCartesiana extensao;
@@ -31,12 +35,24 @@ public class Terreno {
 	 *            posicação cartesiana no plano de duas dimensões que representa
 	 *            o ponto máximo da malha
 	 */
-	public Terreno(PosicaoCartesiana extensao) {
+	public TerrenoExploracao(int eixoX,
+			int eixoY) {
+
+		isTrue(eixoX > 0 || eixoY > 0,
+				"A extensão do terreno não pode ser igual ao seu ponto catesiano mínimo (0,0)");
+
+		this.extensao = new PosicaoCartesiana(eixoX, eixoY);
+	}
+
+	@JsonCreator
+	public TerrenoExploracao(
+			@JsonProperty("extensao") PosicaoCartesiana extensao) {
 
 		isTrue(extensao.getEixoX() > 0 || extensao.getEixoY() > 0,
 				"A extensão do terreno não pode ser igual ao seu ponto catesiano mínimo (0,0)");
 
-		this.extensao = extensao;
+		this.extensao = new PosicaoCartesiana(extensao.getEixoX(),
+				extensao.getEixoY());
 	}
 
 	/**

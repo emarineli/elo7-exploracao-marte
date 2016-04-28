@@ -4,7 +4,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
-import br.com.elo7.exploracao.modelo.Terreno;
+import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
 /**
  * Testes relacionados à entidade Terreno.
@@ -12,16 +12,16 @@ import br.com.elo7.exploracao.modelo.Terreno;
  * @author talent.emarineli
  *
  */
-public class TerrenoTest {
+public class TerrenoExploracaoTest {
 
-	Terreno terrenoBase = new Terreno(new PosicaoCartesiana(10, 5));
+	TerrenoExploracao terrenoBase = new TerrenoExploracao(10, 5);
 
 	/**
 	 * Verifica igualdade entre dois objetos distintos.
 	 */
 	@Test
 	public void testIgualdadeObjetos() {
-		assertEquals(terrenoBase, new Terreno(new PosicaoCartesiana(10, 5)));
+		assertEquals(terrenoBase, new TerrenoExploracao(10, 5));
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class TerrenoTest {
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testCriacaoTerrenoPosicaoMinima() {
-		new Terreno(new PosicaoCartesiana(0, 0));
+		new TerrenoExploracao(0, 0);
 	}
 
 }

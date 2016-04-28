@@ -6,10 +6,10 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracaoEnum;
 import br.com.elo7.exploracao.modelo.VeiculoExploracao;
@@ -21,9 +21,9 @@ import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
  * @author emarineli
  *
  */
-@Controller
+@RestController
 @RequestMapping("/sondas/{identificadorSonda}")
-public class InstrucoesVeiculoExploracaoRecurso {
+public class InstrucoesVeiculoExploracaoRestController {
 
 	@Autowired
 	private VeiculoExploracaoRepositorio sondaRepositorio;
