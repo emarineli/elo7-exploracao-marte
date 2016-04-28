@@ -21,6 +21,8 @@ import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
+import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
 
 /**
@@ -39,8 +41,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	@Mock
 	private VeiculoExploracaoRepositorioMemoriaImpl repoMock;
 
-	private final SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO,
-			DIRECAO_PADRAO);
+	private final SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 
 	@Before
 	public void setup() {
@@ -59,8 +60,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	 */
 	@Test
 	public void testObterVeiculoExploracaoPorIdentificador() {
-		assertEquals(sondaBase,
-				repo.obterVeiculoExploracaoPeloIdentificador("teste"));
+		assertEquals(sondaBase, repo.obterVeiculoExploracaoPeloIdentificador("teste"));
 
 	}
 
@@ -78,8 +78,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	 */
 	@Test
 	public void testImplantarVeiculoExploracao() {
-		SondaSimples novaSonda = new SondaSimples("novaSonda", new PosicaoCartesiana(2, 2),
-				LESTE);
+		SondaSimples novaSonda = new SondaSimples("novaSonda", new PosicaoCartesiana(2, 2), LESTE);
 
 		assertEquals(novaSonda, repo.implantarVeiculoExploracao(novaSonda));
 
@@ -100,8 +99,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	 */
 	@Test(expected = ColisaoVeiculoExploracaoException.class)
 	public void testImplantarVeiculoExploracaoColisaoPosicao() {
-		repo.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora",
-				POSICAO_PADRAO, NORTE));
+		repo.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora", POSICAO_PADRAO, NORTE));
 
 	}
 
@@ -114,14 +112,13 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	@Test
 	public void testAtualizarPosicaoVeiculoExploracao() {
 
-		SondaSimples sondaNovaPosicao = new SondaSimples(sondaBase.obterIdentificador(),
-				new PosicaoCartesiana(2, 3), NORTE);
+		SondaSimples sondaNovaPosicao = new SondaSimples(sondaBase.obterIdentificador(), new PosicaoCartesiana(2, 3),
+				NORTE);
 
 		repo.atualizarPosicaoDirecaoVeiculoExploracao(sondaNovaPosicao);
 
 		assertEquals(sondaNovaPosicao,
-				repo.obterVeiculoExploracaoPeloIdentificador(sondaNovaPosicao
-						.obterIdentificador()));
+				repo.obterVeiculoExploracaoPeloIdentificador(sondaNovaPosicao.obterIdentificador()));
 	}
 
 	/**
@@ -133,26 +130,27 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	@Test
 	public void testAtualizarApenasDirecaoVeiculoExploracao() {
 
-		SondaSimples sondaNovaPosicao = new SondaSimples(sondaBase.obterIdentificador(),
-				sondaBase.obterPosicaoAtual(), SUL);
+		SondaSimples sondaNovaPosicao = new SondaSimples(sondaBase.obterIdentificador(), sondaBase.obterPosicaoAtual(),
+				SUL);
 
 		repo.atualizarPosicaoDirecaoVeiculoExploracao(sondaNovaPosicao);
 
 		assertEquals(sondaNovaPosicao,
-				repo.obterVeiculoExploracaoPeloIdentificador(sondaNovaPosicao
-						.obterIdentificador()));
+				repo.obterVeiculoExploracaoPeloIdentificador(sondaNovaPosicao.obterIdentificador()));
 	}
 
 	@Test(expected = ColisaoVeiculoExploracaoException.class)
 	public void testAtualizarVeiculoExploracaoColisao() {
 
 		/* Com o giro e movimentação a posição da sonda é alterada */
-		sondaBase.girarParaDireita().movimentar();
-
+		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
+				new MovimentarVeiculoExploracaoComando());
+	
 		SondaSimples novaSontaColisora = (SondaSimples) repo
-				.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora",
-						POSICAO_PADRAO, DIRECAO_PADRAO));
-		novaSontaColisora.girarParaDireita().movimentar();
+				.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora", POSICAO_PADRAO, DIRECAO_PADRAO));
+		
+		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
+				new MovimentarVeiculoExploracaoComando());
 
 		repo.atualizarPosicaoDirecaoVeiculoExploracao(novaSontaColisora);
 
@@ -164,8 +162,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	@Test(expected = VeiculoExploracaoNaoEncontradoException.class)
 	public void testAtualizarVeiculoExploracaoNaoEncontrada() {
 
-		SondaSimples sondaNaoImplantada = new SondaSimples("sondaNaoImplantada",
-				POSICAO_PADRAO, DIRECAO_PADRAO);
+		SondaSimples sondaNaoImplantada = new SondaSimples("sondaNaoImplantada", POSICAO_PADRAO, DIRECAO_PADRAO);
 
 		repo.atualizarPosicaoDirecaoVeiculoExploracao(sondaNaoImplantada);
 	}

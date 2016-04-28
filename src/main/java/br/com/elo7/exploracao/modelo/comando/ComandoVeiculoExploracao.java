@@ -1,5 +1,7 @@
 package br.com.elo7.exploracao.modelo.comando;
 
+import br.com.elo7.exploracao.modelo.VeiculoExploracao;
+
 /**
  * Interface de comando.
  * 
@@ -8,5 +10,5 @@ package br.com.elo7.exploracao.modelo.comando;
  */
 public interface ComandoVeiculoExploracao {
 
-	public void execute();
+	public void execute(VeiculoExploracao veiculoExploracao);
 }

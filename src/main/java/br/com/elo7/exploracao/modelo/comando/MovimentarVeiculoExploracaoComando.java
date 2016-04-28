@@ -14,23 +14,17 @@ import br.com.elo7.exploracao.modelo.VeiculoExploracao;
 public class MovimentarVeiculoExploracaoComando implements
 		ComandoVeiculoExploracao {
 
-	private VeiculoExploracao veiculo;
-
-	public MovimentarVeiculoExploracaoComando(VeiculoExploracao veiculo) {
-		this.veiculo = veiculo;
-	}
-
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public void execute() {
+	public void execute(VeiculoExploracao veiculo) {
 
-		int avanco = this.veiculo.obterAvancoPadrao();
-		PosicaoCartesiana posicaoAtual = this.veiculo.obterPosicaoAtual();
+		int avanco = veiculo.obterAvancoPadrao();
+		PosicaoCartesiana posicaoAtual = veiculo.obterPosicaoAtual();
 
 		/* O eixo da movimentação irá depender da direção atual */
-		switch (this.veiculo.obterDirecaoAtual()) {
+		switch (veiculo.obterDirecaoAtual()) {
 
 		case NORTE:
 			posicaoAtual = posicaoAtual.avancarNoEixo(Y, avanco);
@@ -49,7 +43,7 @@ public class MovimentarVeiculoExploracaoComando implements
 			break;
 		}
 
-		this.veiculo.ajustarPosicaoAtual(posicaoAtual);
+		veiculo.ajustarPosicaoAtual(posicaoAtual);
 	}
 
 }

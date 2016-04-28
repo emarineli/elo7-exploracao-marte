@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracaoEnum;
 import br.com.elo7.exploracao.modelo.VeiculoExploracao;
-import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
@@ -37,27 +36,13 @@ public class InstrucoesVeiculoExploracaoRecurso {
 	 * @return
 	 */
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/instrucoes", method = POST)
-	public final ResponseEntity<VeiculoExploracao> comandarSonda(
-			@PathVariable String identificadorSonda,
+	public final ResponseEntity<VeiculoExploracao> comandarSonda(@PathVariable String identificadorSonda,
 			@RequestBody ComandoVeiculoExploracaoEnum[] comandosSonda) {
 
-		VeiculoExploracao sonda = sondaRepositorio
-				.obterVeiculoExploracaoPeloIdentificador(identificadorSonda);
+		VeiculoExploracao sonda = sondaRepositorio.obterVeiculoExploracaoPeloIdentificador(identificadorSonda);
 
 		for (ComandoVeiculoExploracaoEnum comando : comandosSonda) {
-			switch (comando) {
-			case GIRAR_ESQUERDA:
-				sonda.girarParaEquerda();
-				break;
-			case GIRAR_DIREITA:
-				sonda.girarParaDireita();
-				break;
-
-			case MOVER:
-				sonda.processarComando(new MovimentarVeiculoExploracaoComando(sonda));
-				break;
-
-			}
+			sonda.processarComando(comando.obterComandoVeiculo());
 		}
 
 		return new ResponseEntity<VeiculoExploracao>(sonda, MOVED_PERMANENTLY);
