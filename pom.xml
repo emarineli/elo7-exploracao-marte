@@ -68,6 +68,8 @@
 						<format>html</format>
 					</formats>
 				</configuration>
+
+				<!--
 				<executions>
 					<execution>
 						<phase>package</phase>
@@ -76,6 +78,7 @@
 						</goals>
 					</execution>
 				</executions>
+				-->
 			</plugin>
 
 			<plugin>
