@@ -35,12 +35,12 @@ import br.com.elo7.exploracao.modelo.TerrenoExploracao;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ExploracaoMarteApplication.class)
-@WebIntegrationTest({ "server.port=8080", "management.port=9001" })
+@WebIntegrationTest({ "server.port=8181", "management.port=9001" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class VeiculoExploracaoRecursoWebIntegrationTest {
 
-	private static final String URI_SONDA_API = "http://localhost:8080/exploracao/v1/sondas";
-	private static final String URI_TERRENO_API = "http://localhost:8080/exploracao/v1/terreno";
+	private static final String URI_SONDA_API = "http://localhost:8181/exploracao/v1/sondas";
+	private static final String URI_TERRENO_API = "http://localhost:8181/exploracao/v1/terreno";
 
 	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO,
 			DIRECAO_PADRAO);

@@ -21,6 +21,7 @@ import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
+import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
 import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
@@ -49,6 +50,8 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 		MockitoAnnotations.initMocks(this);
 
 		repo = new VeiculoExploracaoRepositorioMemoriaImpl();
+
+		sondaBase.associarTerrenoExploracao(new TerrenoExploracao(5, 5));
 		repo.implantarVeiculoExploracao(sondaBase);
 
 		sondaBase.setVeiculoExploracaoRepositorio(repoMock);
@@ -145,10 +148,10 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 		/* Com o giro e movimentação a posição da sonda é alterada */
 		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
 				new MovimentarVeiculoExploracaoComando());
-	
+
 		SondaSimples novaSontaColisora = (SondaSimples) repo
 				.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora", POSICAO_PADRAO, DIRECAO_PADRAO));
-		
+
 		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
 				new MovimentarVeiculoExploracaoComando());
 
