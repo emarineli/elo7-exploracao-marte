@@ -1,8 +1,10 @@
 package br.com.elo7.exploracao.modelo;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracaoTypeDeserializer;
+import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracaoTypeSerializer;
 import br.com.elo7.exploracao.modelo.comando.ComandoVeiculoExploracao;
 import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
 import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoEsquerdaComando;
@@ -19,6 +21,7 @@ import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
  *
  */
 @JsonDeserialize(using = ComandoVeiculoExploracaoTypeDeserializer.class)
+@JsonSerialize(using = ComandoVeiculoExploracaoTypeSerializer.class)
 public enum ComandoVeiculoExploracaoEnum {
 
 	GIRAR_ESQUERDA("E", new GirarVeiculoExploracaoEsquerdaComando()), GIRAR_DIREITA("D",

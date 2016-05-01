@@ -1,6 +1,7 @@
 package br.com.elo7.exploracao.teste.api.integracao;
 
 import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.SUL;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
@@ -16,6 +17,7 @@ import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.boot.test.TestRestTemplate;
 import org.springframework.boot.test.WebIntegrationTest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
@@ -23,7 +25,6 @@ import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
-import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.*;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
@@ -37,6 +38,7 @@ import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 @SpringApplicationConfiguration(classes = ExploracaoMarteApplication.class)
 @WebIntegrationTest({ "server.port=8181", "management.port=9001" })
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@DirtiesContext
 public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 	private static final String URI_SONDA_API = "http://localhost:8181/exploracao/v1/sondas";
