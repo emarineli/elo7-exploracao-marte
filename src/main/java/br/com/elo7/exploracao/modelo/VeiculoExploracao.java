@@ -10,6 +10,7 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
@@ -41,20 +42,18 @@ public abstract class VeiculoExploracao {
 	@JsonProperty
 	private TerrenoExploracao terrenoExploracao;
 
+	@JsonIgnore
 	@Autowired
 	private VeiculoExploracaoRepositorio veiculoExploracaoRepositorio;
 
-	public VeiculoExploracao(String identificadorVeiculoExploracao,
-			PosicaoCartesiana posicaoInicial, DirecaoCardealEnum direcaoInicial) {
+	public VeiculoExploracao(String identificadorVeiculoExploracao, PosicaoCartesiana posicaoInicial,
+			DirecaoCardealEnum direcaoInicial) {
 
-		hasText(identificadorVeiculoExploracao,
-				"O Veiculo de Exploracao deve possuir um identificador!");
+		hasText(identificadorVeiculoExploracao, "O Veiculo de Exploracao deve possuir um identificador!");
 
 		this.identificadorVeiculoExploracao = identificadorVeiculoExploracao;
-		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO
-				: posicaoInicial;
-		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO
-				: direcaoInicial;
+		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO : posicaoInicial;
+		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO : direcaoInicial;
 	}
 
 	public String obterIdentificador() {
@@ -77,7 +76,21 @@ public abstract class VeiculoExploracao {
 		this.direcaoAtual = novaDirecao;
 	}
 
+	/**
+	 * Associa um terreno de exploração a esta sonda. Neste momento será
+	 * verificado se a sonda não ultrapassa o terreno de exploração no momento
+	 * de sua implantação.
+	 *
+	 * @param terrenoExploracao
+	 */
 	public void associarTerrenoExploracao(TerrenoExploracao terrenoExploracao) {
+
+		if (this.posicaoAtual.getEixoX() > terrenoExploracao.obterExtensao().getEixoX()
+				|| this.posicaoAtual.getEixoY() > terrenoExploracao.obterExtensao().getEixoY()) {
+			throw new IllegalArgumentException(
+					"A sonda não pode ultrapassar o terreno de exploração associado para sua implantação.");
+		}
+
 		this.terrenoExploracao = terrenoExploracao;
 	}
 
@@ -89,8 +102,7 @@ public abstract class VeiculoExploracao {
 
 		comando.execute(this);
 
-		this.veiculoExploracaoRepositorio
-				.atualizarPosicaoDirecaoVeiculoExploracao(this);
+		this.veiculoExploracaoRepositorio.atualizarPosicaoDirecaoVeiculoExploracao(this);
 
 		return this;
 
@@ -102,8 +114,7 @@ public abstract class VeiculoExploracao {
 			comando.execute(this);
 
 			/* Atualização é feita por comando */
-			this.veiculoExploracaoRepositorio
-					.atualizarPosicaoDirecaoVeiculoExploracao(this);
+			this.veiculoExploracaoRepositorio.atualizarPosicaoDirecaoVeiculoExploracao(this);
 		}
 
 	}
@@ -120,18 +131,14 @@ public abstract class VeiculoExploracao {
 	 * 
 	 * @param sondaRepositorio
 	 */
-	public void setVeiculoExploracaoRepositorio(
-			VeiculoExploracaoRepositorio sondaRepositorio) {
+	public void setVeiculoExploracaoRepositorio(VeiculoExploracaoRepositorio sondaRepositorio) {
 		this.veiculoExploracaoRepositorio = sondaRepositorio;
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder()
-				.append(this.identificadorVeiculoExploracao)
-				.append(this.posicaoAtual).append(this.direcaoAtual)
-				.append(this.terrenoExploracao)
-				.toHashCode();
+		return new HashCodeBuilder().append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
+				.append(this.direcaoAtual).append(this.terrenoExploracao).toHashCode();
 	}
 
 	@Override
@@ -140,11 +147,8 @@ public abstract class VeiculoExploracao {
 		if (obj instanceof VeiculoExploracao) {
 			final VeiculoExploracao other = (VeiculoExploracao) obj;
 
-			return new EqualsBuilder()
-					.append(this.identificadorVeiculoExploracao,
-							other.identificadorVeiculoExploracao)
-					.append(this.posicaoAtual, other.posicaoAtual)
-					.append(this.direcaoAtual, other.direcaoAtual)
+			return new EqualsBuilder().append(this.identificadorVeiculoExploracao, other.identificadorVeiculoExploracao)
+					.append(this.posicaoAtual, other.posicaoAtual).append(this.direcaoAtual, other.direcaoAtual)
 					.append(this.terrenoExploracao, other.terrenoExploracao).isEquals();
 
 		} else {
@@ -154,9 +158,7 @@ public abstract class VeiculoExploracao {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this)
-				.append(this.identificadorVeiculoExploracao)
-				.append(this.posicaoAtual).append(this.direcaoAtual)
-				.append(this.terrenoExploracao).toString();
+		return new ToStringBuilder(this).append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
+				.append(this.direcaoAtual).append(this.terrenoExploracao).toString();
 	}
 }

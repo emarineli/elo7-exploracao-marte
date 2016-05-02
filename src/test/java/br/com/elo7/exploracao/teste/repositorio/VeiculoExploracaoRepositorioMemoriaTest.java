@@ -55,6 +55,7 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 		repo.implantarVeiculoExploracao(sondaBase);
 
 		sondaBase.setVeiculoExploracaoRepositorio(repoMock);
+		
 	}
 
 	/**

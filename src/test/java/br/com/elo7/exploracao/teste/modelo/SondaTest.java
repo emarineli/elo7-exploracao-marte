@@ -36,9 +36,8 @@ public class SondaTest {
 	@Mock
 	private VeiculoExploracaoRepositorioMemoriaImpl repoMock;
 
-	private final SondaSimples sondaBase = new SondaSimples("sondaTeste",
-			POSICAO_PADRAO, DIRECAO_PADRAO);
-	
+	private final SondaSimples sondaBase = new SondaSimples("sondaTeste", POSICAO_PADRAO, DIRECAO_PADRAO);
+
 	private final TerrenoExploracao terrenoBase = new TerrenoExploracao(10, 10);
 
 	@Before
@@ -51,8 +50,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testIgualdadeObjeto() {
-		assertEquals(sondaBase, new SondaSimples("sondaTeste", POSICAO_PADRAO,
-				DIRECAO_PADRAO));
+		assertEquals(sondaBase, new SondaSimples("sondaTeste", POSICAO_PADRAO, DIRECAO_PADRAO));
 	}
 
 	/**
@@ -61,8 +59,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorIdentificador() {
-		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO,
-				DIRECAO_PADRAO));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO, DIRECAO_PADRAO));
 	}
 
 	/**
@@ -71,8 +68,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorPosicao() {
-		assertNotEquals(sondaBase, new SondaSimples("sonda",
-				new PosicaoCartesiana(1, 1), DIRECAO_PADRAO));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", new PosicaoCartesiana(1, 1), DIRECAO_PADRAO));
 	}
 
 	/**
@@ -80,8 +76,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testNaoIgualdadeObjetoPorDirecao() {
-		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO,
-				SUL));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO, SUL));
 	}
 
 	/**
@@ -118,8 +113,7 @@ public class SondaTest {
 	 */
 	@Test
 	public void testCriacaoSondaPorDirecaoNula() {
-		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO,
-				null));
+		assertNotEquals(sondaBase, new SondaSimples("sonda", POSICAO_PADRAO, null));
 	}
 
 	/**
@@ -148,13 +142,13 @@ public class SondaTest {
 	public void testIgualdadeDirecaoAtual() {
 		assertEquals(sondaBase.obterDirecaoAtual(), DIRECAO_PADRAO);
 	}
-	
+
 	@Test
 	public void testAssociarTerrenoExploracao() {
 		sondaBase.associarTerrenoExploracao(terrenoBase);
 		assertEquals(terrenoBase, sondaBase.obterTerrenoExploracaoAssociado());
 	}
-	
+
 	/**
 	 * Realiza um giro de 90 graus para a esquerda baseado na posição atual da
 	 * sonda que será NORTE.
@@ -162,8 +156,7 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaEsquerdaComDirecaoAtualNorte() {
 
-		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO,
-				DIRECAO_PADRAO);
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
 		sonda.processarComando(new GirarVeiculoExploracaoEsquerdaComando());
@@ -223,8 +216,7 @@ public class SondaTest {
 	@Test
 	public void testGirarSondaParaDireitaComDirecaoAtualNorte() {
 
-		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO,
-				DIRECAO_PADRAO);
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
 		sonda.processarComando(new GirarVeiculoExploracaoDireitaComando());
@@ -287,11 +279,10 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaNorte() {
 
-		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO,
-				DIRECAO_PADRAO);
+		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		sonda.processarComando(new MovimentarVeiculoExploracaoComando());
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
@@ -306,11 +297,10 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaSul() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(0,
-				2), SUL);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(0, 2), SUL);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		sonda.processarComando(new MovimentarVeiculoExploracaoComando());
 
 		assertEquals(new PosicaoCartesiana(0, 1), sonda.obterPosicaoAtual());
@@ -326,11 +316,10 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaLeste() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2,
-				2), LESTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		sonda.processarComando(new MovimentarVeiculoExploracaoComando());
 
 		assertEquals(new PosicaoCartesiana(3, 2), sonda.obterPosicaoAtual());
@@ -346,11 +335,10 @@ public class SondaTest {
 	@Test
 	public void testMovimentarSondaParaOeste() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2,
-				2), OESTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(2, 2), OESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		sonda.processarComando(new MovimentarVeiculoExploracaoComando());
 
 		assertEquals(new PosicaoCartesiana(1, 2), sonda.obterPosicaoAtual());
@@ -370,17 +358,15 @@ public class SondaTest {
 	@Test
 	public void testCasoPrimeiroExemploExercicio() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1,
-				2), NORTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), NORTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		GirarVeiculoExploracaoEsquerdaComando girarEsquerda = new GirarVeiculoExploracaoEsquerdaComando();
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
-		sonda.processarComandos(girarEsquerda, movimentar, girarEsquerda,
-				movimentar, girarEsquerda, movimentar, girarEsquerda,
-				movimentar, movimentar);
+		sonda.processarComandos(girarEsquerda, movimentar, girarEsquerda, movimentar, girarEsquerda, movimentar,
+				girarEsquerda, movimentar, movimentar);
 
 		assertEquals(new PosicaoCartesiana(1, 3), sonda.obterPosicaoAtual());
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
@@ -401,17 +387,15 @@ public class SondaTest {
 	@Test
 	public void testCasoSegundoExemploExercicio() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(3,
-				3), LESTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(3, 3), LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
-		
+
 		GirarVeiculoExploracaoDireitaComando girarDireita = new GirarVeiculoExploracaoDireitaComando();
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
-		sonda.processarComandos(movimentar, movimentar, girarDireita,
-				movimentar, movimentar, girarDireita, movimentar, girarDireita,
-				girarDireita, movimentar);
+		sonda.processarComandos(movimentar, movimentar, girarDireita, movimentar, movimentar, girarDireita, movimentar,
+				girarDireita, girarDireita, movimentar);
 
 		assertEquals(new PosicaoCartesiana(5, 1), sonda.obterPosicaoAtual());
 		assertEquals(LESTE, sonda.obterDirecaoAtual());
@@ -419,67 +403,87 @@ public class SondaTest {
 	}
 
 	/**
-	 * Realiza o teste sobre o avanço da sonda no eixo Y para sobre o terreno demarcado.
+	 * Testa a tentativa de se implantar a sonda fora da dimensão do eixo X no
+	 * terreno de implantação.
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
+	public void testImplantarSondaForaDimensaoTerrenoEixoX() {
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(11, 3), LESTE);
+		sonda.associarTerrenoExploracao(terrenoBase);
+	}
+
+	/**
+	 * Testa a tentativa de se implantar a sonda fora da dimensão do eixo Y no
+	 * terreno de implantação.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testImplantarSondaForaDimensaoTerrenoEixoY() {
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(5, 11), LESTE);
+		sonda.associarTerrenoExploracao(terrenoBase);
+	}
+
+	/**
+	 * Realiza o teste sobre o avanço da sonda no eixo Y para sobre o terreno
+	 * demarcado.
+	 */
+	@Test(expected = IllegalArgumentException.class)
 	public void testMovimentarSondaSobreTerrenoAvancoY() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1,
-				2), NORTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), NORTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(new TerrenoExploracao(3, 3));
-		
+
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(movimentar, movimentar, movimentar, movimentar);
 	}
 
 	/**
-	 * Realiza o teste sobre o avanço da sonda no eixo X para sobre o terreno demarcado.
+	 * Realiza o teste sobre o avanço da sonda no eixo X para sobre o terreno
+	 * demarcado.
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testMovimentarSondaSobreTerrenoAvancoX() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1,
-				2), LESTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(new TerrenoExploracao(3, 3));
-		
+
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(movimentar, movimentar, movimentar, movimentar);
 	}
 
 	/**
-	 * Realiza o teste sobre o retrocesso da sonda no eixo Y para sobre o terreno demarcado.
+	 * Realiza o teste sobre o retrocesso da sonda no eixo Y para sobre o
+	 * terreno demarcado.
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testMovimentarSondaSobreTerrenoRetrocessoY() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1,
-				2), SUL);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), SUL);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(new TerrenoExploracao(3, 3));
-		
+
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(movimentar, movimentar, movimentar);
 	}
 
 	/**
-	 * Realiza o teste sobre o retrocesso da sonda no eixo Y para sobre o terreno demarcado.
+	 * Realiza o teste sobre o retrocesso da sonda no eixo Y para sobre o
+	 * terreno demarcado.
 	 */
-	@Test(expected=IllegalArgumentException.class)
+	@Test(expected = IllegalArgumentException.class)
 	public void testMovimentarSondaSobreTerrenoRetrocessoX() {
 
-		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1,
-				2), OESTE);
+		SondaSimples sonda = new SondaSimples("teste", new PosicaoCartesiana(1, 2), OESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(new TerrenoExploracao(3, 3));
-		
+
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(movimentar, movimentar);
 	}
-	
+
 }

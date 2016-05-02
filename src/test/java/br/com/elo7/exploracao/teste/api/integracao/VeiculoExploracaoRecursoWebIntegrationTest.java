@@ -25,6 +25,7 @@ import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
 import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
+import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
@@ -44,8 +45,10 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	private static final String URI_SONDA_API = "http://localhost:8181/exploracao/v1/sondas";
 	private static final String URI_TERRENO_API = "http://localhost:8181/exploracao/v1/terreno";
 
-	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO,
-			DIRECAO_PADRAO);
+	private static final MensagemRetorno MENSAGEM_ERRO_IMPLANTACAO_TERRENO = new MensagemRetorno(
+			"A sonda não pode ultrapassar o terreno de exploração associado para sua implantação.");
+
+	private SondaSimples sondaBase = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 
 	/**
 	 * Realiza a implantação de uma sonda.
@@ -54,13 +57,12 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	public void test_a_ImplantarSonda() {
 
 		TerrenoExploracao terreno = new TerrenoExploracao(10, 10);
-		
-		new TestRestTemplate().postForEntity(URI_TERRENO_API,
-				terreno, TerrenoExploracao.class);
+
+		new TestRestTemplate().postForEntity(URI_TERRENO_API, terreno, TerrenoExploracao.class);
 
 		ResponseEntity<SondaSimples> response = criarSondaBase();
 		sondaBase.associarTerrenoExploracao(terreno);
-		
+
 		assertEquals(CREATED, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
 
@@ -70,14 +72,45 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	 * Realiza a implantação de uma sonda.
 	 */
 	@Test
-	public void test_a_a_ImplantarSondaJaExistente() {
+	public void test_a_a_ImplantarSondaForaTerrenoExploracaoEixoX() {
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
-				VeiculoExploracaoDuplicadoException.MENSAGEM,
-				sondaBase.obterIdentificador()));
+		SondaSimples novaSonda = new SondaSimples("teste", new PosicaoCartesiana(11, 1), DIRECAO_PADRAO);
 
-		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
-				.postForEntity(URI_SONDA_API, sondaBase, MensagemRetorno.class);
+		ResponseEntity<MensagemRetorno> response = new TestRestTemplate().postForEntity(URI_SONDA_API, novaSonda,
+				MensagemRetorno.class);
+
+		assertEquals(BAD_REQUEST, response.getStatusCode());
+		assertEquals(MENSAGEM_ERRO_IMPLANTACAO_TERRENO, response.getBody());
+
+	}
+
+	/**
+	 * Realiza a implantação de uma sonda.
+	 */
+	@Test
+	public void test_a_b_ImplantarSondaForaTerrenoExploracaoEixoX() {
+
+		SondaSimples novaSonda = new SondaSimples("teste", new PosicaoCartesiana(1, 11), DIRECAO_PADRAO);
+
+		ResponseEntity<MensagemRetorno> response = new TestRestTemplate().postForEntity(URI_SONDA_API, novaSonda,
+				MensagemRetorno.class);
+
+		assertEquals(BAD_REQUEST, response.getStatusCode());
+		assertEquals(MENSAGEM_ERRO_IMPLANTACAO_TERRENO, response.getBody());
+
+	}
+
+	/**
+	 * Realiza a implantação de uma sonda.
+	 */
+	@Test
+	public void test_a_c_ImplantarSondaJaExistente() {
+
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(
+				String.format(VeiculoExploracaoDuplicadoException.MENSAGEM, sondaBase.obterIdentificador()));
+
+		ResponseEntity<MensagemRetorno> response = new TestRestTemplate().postForEntity(URI_SONDA_API, sondaBase,
+				MensagemRetorno.class);
 
 		assertEquals(BAD_REQUEST, response.getStatusCode());
 		assertEquals(mensagemEsperada, response.getBody());
@@ -92,14 +125,11 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 		String identificadorNovaSonda = "novaSonda";
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
-				ColisaoVeiculoExploracaoException.MENSAGEM,
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(ColisaoVeiculoExploracaoException.MENSAGEM,
 				identificadorNovaSonda, sondaBase.obterIdentificador()));
 
-		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
-				.postForEntity(URI_SONDA_API, new SondaSimples(
-						identificadorNovaSonda, sondaBase.obterPosicaoAtual(),
-						SUL), MensagemRetorno.class);
+		ResponseEntity<MensagemRetorno> response = new TestRestTemplate().postForEntity(URI_SONDA_API,
+				new SondaSimples(identificadorNovaSonda, sondaBase.obterPosicaoAtual(), SUL), MensagemRetorno.class);
 
 		assertEquals(BAD_REQUEST, response.getStatusCode());
 		assertEquals(mensagemEsperada, response.getBody());
@@ -113,12 +143,12 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 	public void test_b_ObterSonda() {
 
 		TerrenoExploracao terreno = new TerrenoExploracao(10, 10);
-		
-		ResponseEntity<SondaSimples> response = new TestRestTemplate()
-				.getForEntity(URI_SONDA_API + "/teste", SondaSimples.class);
+
+		ResponseEntity<SondaSimples> response = new TestRestTemplate().getForEntity(URI_SONDA_API + "/teste",
+				SondaSimples.class);
 
 		sondaBase.associarTerrenoExploracao(terreno);
-		
+
 		assertEquals(OK, response.getStatusCode());
 		assertEquals(sondaBase, response.getBody());
 
@@ -142,13 +172,11 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 		String identificadorSonda = "identificadorInvalido";
 
-		MensagemRetorno mensagemEsperada = new MensagemRetorno(String.format(
-				VeiculoExploracaoNaoEncontradoException.MENSAGEM,
-				identificadorSonda));
+		MensagemRetorno mensagemEsperada = new MensagemRetorno(
+				String.format(VeiculoExploracaoNaoEncontradoException.MENSAGEM, identificadorSonda));
 
 		ResponseEntity<MensagemRetorno> response = new TestRestTemplate()
-				.getForEntity(URI_SONDA_API + "/" + identificadorSonda,
-						MensagemRetorno.class);
+				.getForEntity(URI_SONDA_API + "/" + identificadorSonda, MensagemRetorno.class);
 
 		assertEquals(NOT_FOUND, response.getStatusCode());
 		assertEquals(mensagemEsperada, response.getBody());
@@ -157,8 +185,7 @@ public class VeiculoExploracaoRecursoWebIntegrationTest {
 
 	private ResponseEntity<SondaSimples> criarSondaBase() {
 
-		return new TestRestTemplate().postForEntity(URI_SONDA_API, sondaBase,
-				SondaSimples.class);
+		return new TestRestTemplate().postForEntity(URI_SONDA_API, sondaBase, SondaSimples.class);
 
 	}
 }
