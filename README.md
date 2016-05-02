@@ -14,8 +14,8 @@ Foi criada uma API Restful para execução de cada uma destas etapas.
 + Mockito 1.10.19
 + Springfox Swagger 2.2.2
 
-## Status
-![Build Status](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/badge/icon)
+## Compilação
+[![Build Status](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/badge/icon)](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/)
 
 ## Documentação da API
 http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8181/exploracao/v1/swagger-ui.html
