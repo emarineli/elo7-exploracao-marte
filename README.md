@@ -15,7 +15,7 @@ Foi criada uma API Restful para execução de cada uma destas etapas.
 + Springfox Swagger 2.2.2
 
 ## Status
-![Build Status](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/badge/icon)
+[![Build status](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/badge/icon)](http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8050/job/marte-ataca-master/badge/icon)
 
 ## Documentação da API
 http://ec2-52-67-15-216.sa-east-1.compute.amazonaws.com:8181/exploracao/v1/swagger-ui.html
