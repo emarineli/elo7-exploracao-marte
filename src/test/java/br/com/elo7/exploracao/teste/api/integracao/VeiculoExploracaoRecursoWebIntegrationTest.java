@@ -37,7 +37,7 @@ import br.com.elo7.exploracao.modelo.TerrenoExploracao;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ExploracaoMarteApplication.class)
-@WebIntegrationTest({ "server.port=8181", "management.port=9001" })
+@WebIntegrationTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 @DirtiesContext
 public class VeiculoExploracaoRecursoWebIntegrationTest {
