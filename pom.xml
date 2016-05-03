@@ -12,6 +12,7 @@
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<docker.tag>latest</docker.tag>
 	</properties>
 
 	<developers>
@@ -113,7 +114,7 @@
 				<artifactId>docker-maven-plugin</artifactId>
 				<version>0.4.9</version>
 				<configuration>
-					<imageName>emarineli/${project.artifactId}</imageName>
+					<imageName>emarineli/${project.artifactId}:${docker.tag}</imageName>
 					<dockerDirectory>src/main/docker</dockerDirectory>
 					<resources>
 						<resource>
