@@ -9,6 +9,7 @@ import org.apache.commons.lang3.builder.HashCodeBuilder;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.hateoas.ResourceSupport;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -28,7 +29,7 @@ import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonSubTypes({ @Type(value = SondaSimples.class, name = "sondaSimples") })
 @Configurable
-public abstract class VeiculoExploracao {
+public abstract class VeiculoExploracao extends ResourceSupport {
 
 	@JsonProperty
 	private String identificadorVeiculoExploracao;

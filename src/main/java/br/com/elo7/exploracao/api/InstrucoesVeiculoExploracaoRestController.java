@@ -1,5 +1,7 @@
 package br.com.elo7.exploracao.api;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
 import static org.springframework.http.HttpStatus.MOVED_PERMANENTLY;
 import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -44,6 +46,9 @@ public class InstrucoesVeiculoExploracaoRestController {
 		for (ComandoVeiculoExploracaoEnum comando : comandosSonda) {
 			sonda.processarComando(comando.obterComandoVeiculo());
 		}
+		
+		sonda.add(linkTo(methodOn(VeiculoExploracaoRestController.class)
+				.obterVeiculoExploracaoImplantada(sonda.obterIdentificador())).withRel("sondas"));
 
 		return new ResponseEntity<VeiculoExploracao>(sonda, MOVED_PERMANENTLY);
 	}

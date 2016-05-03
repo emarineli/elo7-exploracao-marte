@@ -21,6 +21,8 @@ import br.com.elo7.exploracao.modelo.VeiculoExploracao;
 import br.com.elo7.exploracao.repositorio.TerrenoExploracaoRepositorio;
 import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
+import static org.springframework.hateoas.mvc.ControllerLinkBuilder.*;
+
 /**
  * API responsável pela manutenção de sondas.
  * 
@@ -45,16 +47,21 @@ public class VeiculoExploracaoRestController {
 	 * @return sonda implantada.
 	 */
 	@RequestMapping(consumes = { APPLICATION_JSON_VALUE }, produces = { APPLICATION_JSON_VALUE }, method = POST)
-	public final ResponseEntity<VeiculoExploracao> implantarVeiculoExploracao(
-			@RequestBody VeiculoExploracao sonda) {
+	public ResponseEntity<VeiculoExploracao> implantarVeiculoExploracao(@RequestBody VeiculoExploracao sonda) {
 
-		/* Para cada sonda criada, um terreno de exploração deve ser associado. */
-		TerrenoExploracao terrenoExploracao = terrenoExploracaoRepositorio
-				.obterTerrenoExploracao();
+		/*
+		 * Para cada sonda criada, um terreno de exploração deve ser associado.
+		 */
+		TerrenoExploracao terrenoExploracao = terrenoExploracaoRepositorio.obterTerrenoExploracao();
 		sonda.associarTerrenoExploracao(terrenoExploracao);
+		
+		sonda = sondaRepositorio.implantarVeiculoExploracao(sonda);
+		
+		sonda.add(linkTo(methodOn(VeiculoExploracaoRestController.class)
+				.removerVeiculoExploracaoImplantada(sonda.obterIdentificador())).withSelfRel());
 
-		return new ResponseEntity<VeiculoExploracao>(
-				sondaRepositorio.implantarVeiculoExploracao(sonda), CREATED);
+
+		return new ResponseEntity<VeiculoExploracao>(sonda, CREATED);
 	}
 
 	/**
@@ -65,11 +72,13 @@ public class VeiculoExploracaoRestController {
 	 * @return representação da sonda.
 	 */
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorVeiculoExploracao}", method = GET)
-	public final @ResponseBody VeiculoExploracao obterVeiculoExploracaoImplantada(
+	public @ResponseBody VeiculoExploracao obterVeiculoExploracaoImplantada(
 			@PathVariable String identificadorVeiculoExploracao) {
 
-		return sondaRepositorio
-				.obterVeiculoExploracaoPeloIdentificador(identificadorVeiculoExploracao);
+		VeiculoExploracao ve = sondaRepositorio.obterVeiculoExploracaoPeloIdentificador(identificadorVeiculoExploracao);
+
+		ve.add(linkTo(VeiculoExploracaoRestController.class).slash(ve.obterIdentificador()).withSelfRel());
+		return ve;
 	}
 
 	/**
@@ -83,13 +92,11 @@ public class VeiculoExploracaoRestController {
 	 * @return representação da sonda.
 	 */
 	@RequestMapping(produces = { APPLICATION_JSON_VALUE }, value = "/{identificadorVeiculoExploracao}", method = DELETE)
-	public final ResponseEntity<MensagemRetorno> removerVeiculoExploracaoImplantada(
+	public ResponseEntity<MensagemRetorno> removerVeiculoExploracaoImplantada(
 			@PathVariable String identificadorVeiculoExploracao) {
 
-		sondaRepositorio
-				.removerVeiculoExploracao(identificadorVeiculoExploracao);
+		sondaRepositorio.removerVeiculoExploracao(identificadorVeiculoExploracao);
 
-		return new ResponseEntity<MensagemRetorno>(new MensagemRetorno(
-				"VeiculoExploracao removida"), OK);
+		return new ResponseEntity<MensagemRetorno>(new MensagemRetorno("VeiculoExploracao removida"), OK);
 	}
 }
