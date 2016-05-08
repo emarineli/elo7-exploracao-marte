@@ -14,7 +14,6 @@ Foi criada uma API Restful para execução de cada uma destas etapas.
 + Mockito 1.10.19
 + Springfox Swagger 2.2.2
 
-## Status
 [![Build Status](https://api.travis-ci.org/emarineli/elo7-exploracao-marte.svg?branch=dev-sec)]
 
 ## Documentação da API
