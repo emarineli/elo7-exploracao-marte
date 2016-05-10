@@ -22,7 +22,7 @@ import br.com.elo7.exploracao.exception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
-import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracao90GrausDireitaComando;
 import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
 
@@ -147,13 +147,13 @@ public class VeiculoExploracaoRepositorioMemoriaTest {
 	public void testAtualizarVeiculoExploracaoColisao() {
 
 		/* Com o giro e movimentação a posição da sonda é alterada */
-		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
+		sondaBase.processarComandos(new GirarVeiculoExploracao90GrausDireitaComando(),
 				new MovimentarVeiculoExploracaoComando());
 
 		SondaSimples novaSontaColisora = (SondaSimples) repo
 				.implantarVeiculoExploracao(new SondaSimples("novaSondaColisora", POSICAO_PADRAO, DIRECAO_PADRAO));
 
-		sondaBase.processarComandos(new GirarVeiculoExploracaoDireitaComando(),
+		sondaBase.processarComandos(new GirarVeiculoExploracao90GrausDireitaComando(),
 				new MovimentarVeiculoExploracaoComando());
 
 		repo.atualizarPosicaoDirecaoVeiculoExploracao(novaSontaColisora);

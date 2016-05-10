@@ -8,8 +8,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracaoTypeDeserializer;
 import br.com.elo7.exploracao.infraestrutura.serializer.ComandoVeiculoExploracaoTypeSerializer;
 import br.com.elo7.exploracao.modelo.comando.ComandoVeiculoExploracao;
-import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
-import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoEsquerdaComando;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracao90GrausDireitaComando;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracao90grausEsquerdaComando;
 import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 
 /**
@@ -26,8 +26,8 @@ import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 @JsonSerialize(using = ComandoVeiculoExploracaoTypeSerializer.class)
 public enum ComandoVeiculoExploracaoEnum {
 
-	GIRAR_ESQUERDA("E", new GirarVeiculoExploracaoEsquerdaComando()), GIRAR_DIREITA("D",
-			new GirarVeiculoExploracaoDireitaComando()), MOVER("M", new MovimentarVeiculoExploracaoComando());
+	GIRAR_ESQUERDA("E", new GirarVeiculoExploracao90grausEsquerdaComando()), GIRAR_DIREITA("D",
+			new GirarVeiculoExploracao90GrausDireitaComando()), MOVER("M", new MovimentarVeiculoExploracaoComando());
 
 	private String representacaoString;
 	private ComandoVeiculoExploracao comandoVeiculo;

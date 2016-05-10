@@ -18,7 +18,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoEsquerdaNorte() {
-		assertEquals(OESTE, NORTE.obterProximaDirecaoEsquerda());
+		assertEquals(OESTE, NORTE.obterProximaDirecaoEsquerda().get());
 	}
 
 	/**
@@ -26,7 +26,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoEsquerdaSul() {
-		assertEquals(LESTE, SUL.obterProximaDirecaoEsquerda());
+		assertEquals(LESTE, SUL.obterProximaDirecaoEsquerda().get());
 	}
 
 	/**
@@ -34,7 +34,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoEsquerdaLeste() {
-		assertEquals(NORTE, LESTE.obterProximaDirecaoEsquerda());
+		assertEquals(NORTE, LESTE.obterProximaDirecaoEsquerda().get());
 	}
 
 	/**
@@ -42,7 +42,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoEsquerdaOeste() {
-		assertEquals(SUL, OESTE.obterProximaDirecaoEsquerda());
+		assertEquals(SUL, OESTE.obterProximaDirecaoEsquerda().get());
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoDireitaNorte() {
-		assertEquals(LESTE, NORTE.obterProximaDirecaoDireita());
+		assertEquals(LESTE, NORTE.obterProximaDirecaoDireita().get());
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoDireitaSul() {
-		assertEquals(OESTE, SUL.obterProximaDirecaoDireita());
+		assertEquals(OESTE, SUL.obterProximaDirecaoDireita().get());
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoDireitaLeste() {
-		assertEquals(SUL, LESTE.obterProximaDirecaoDireita());
+		assertEquals(SUL, LESTE.obterProximaDirecaoDireita().get());
 	}
 
 	/**
@@ -74,7 +74,7 @@ public class DirecaoCardealTest {
 	 */
 	@Test
 	public void testObterRepresentacaoProximaDirecaoDireitaOeste() {
-		assertEquals(NORTE, OESTE.obterProximaDirecaoDireita());
+		assertEquals(NORTE, OESTE.obterProximaDirecaoDireita().get());
 	}
 
 	/**
