@@ -1,4 +1,4 @@
-package br.com.elo7.exploracao.exeception;
+package br.com.elo7.exploracao.exception;
 
 /**
  * Lançada quando não for possível encontrar uma sonda pelo seu identificador

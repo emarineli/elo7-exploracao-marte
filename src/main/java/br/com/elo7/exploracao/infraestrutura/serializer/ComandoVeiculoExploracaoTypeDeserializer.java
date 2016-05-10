@@ -16,23 +16,26 @@ import br.com.elo7.exploracao.modelo.ComandoVeiculoExploracaoEnum;
  * @author emarineli
  *
  */
-public class ComandoVeiculoExploracaoTypeDeserializer extends JsonDeserializer<ComandoVeiculoExploracaoEnum> {
+public class ComandoVeiculoExploracaoTypeDeserializer extends
+		JsonDeserializer<ComandoVeiculoExploracaoEnum> {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
-	public ComandoVeiculoExploracaoEnum deserialize(JsonParser p, DeserializationContext ctxt)
-			throws IOException, JsonProcessingException {
+	public ComandoVeiculoExploracaoEnum deserialize(JsonParser p,
+			DeserializationContext ctxt) throws IOException,
+			JsonProcessingException {
 
-		ComandoVeiculoExploracaoEnum cs = ComandoVeiculoExploracaoEnum.obterDirecaoPorRepresentacao(p.getText());
+		String direcaoString = p.getText();
 
-		if (cs == null) {
-			throw new IllegalArgumentException("A representação simplificada do comando de sonda [" + p.getText()
-					+ "] é inválida." + "As representações válidas são: D,E,M");
-		}
+		return ComandoVeiculoExploracaoEnum.obterDirecaoPorRepresentacao(
+				direcaoString).orElseThrow(
+				() -> new IllegalArgumentException(
+						"A representação simplificada do comando de sonda ["
+								+ direcaoString + "] é inválida."
+								+ "As representações válidas são: D,E,M"));
 
-		return cs;
 	}
 
 }

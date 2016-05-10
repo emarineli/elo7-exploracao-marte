@@ -1,5 +1,13 @@
 package br.com.elo7.exploracao.modelo;
 
+import java.util.Optional;
+
+import br.com.elo7.exploracao.modelo.state.MovimentacaoLesteState;
+import br.com.elo7.exploracao.modelo.state.MovimentacaoNorteState;
+import br.com.elo7.exploracao.modelo.state.MovimentacaoOesteState;
+import br.com.elo7.exploracao.modelo.state.MovimentacaoState;
+import br.com.elo7.exploracao.modelo.state.MovimentacaoSulState;
+
 /**
  * Representa uma direção cardeal da rosa dos ventos.
  * 
@@ -15,11 +23,16 @@ public enum DirecaoCardealEnum {
 	 * Os enumeradores já são definidos com suas orientações a 90 graus à
 	 * esquerda e direita
 	 */
-	NORTE("N", "O", "L"), SUL("S", "L", "O"), LESTE("L", "N", "S"), OESTE("O", "S", "N");
+	NORTE("N", "O", "L", new MovimentacaoNorteState()), SUL("S", "L", "O",
+			new MovimentacaoSulState()), LESTE("L", "N", "S",
+			new MovimentacaoLesteState()), OESTE("O", "S", "N",
+			new MovimentacaoOesteState());
 
 	private String representacaoString;
 	private String proximaDirecaoEsquerda;
 	private String proximaDirecaoDireita;
+
+	private MovimentacaoState estadoMovimentacao;
 
 	public static DirecaoCardealEnum DIRECAO_PADRAO = DirecaoCardealEnum.NORTE;
 
@@ -34,11 +47,17 @@ public enum DirecaoCardealEnum {
 	 * @param proximaDirecaoDireita
 	 *            representação em string da próxima direçção a 90 graus à
 	 *            direita.
+	 * @param estadoMovimentacao
+	 *            estado de movimentação da sonda.
 	 */
-	private DirecaoCardealEnum(String representacaoString, String proximaDirecaoEsquerda, String proximaDirecaoDireita) {
+	private DirecaoCardealEnum(String representacaoString,
+			String proximaDirecaoEsquerda, String proximaDirecaoDireita,
+			MovimentacaoState estadoMovimentacao) {
 		this.representacaoString = representacaoString;
 		this.proximaDirecaoDireita = proximaDirecaoDireita;
 		this.proximaDirecaoEsquerda = proximaDirecaoEsquerda;
+
+		this.estadoMovimentacao = estadoMovimentacao;
 	}
 
 	public String obterRepresentacaoString() {
@@ -53,6 +72,10 @@ public enum DirecaoCardealEnum {
 		return this.proximaDirecaoDireita;
 	}
 
+	public MovimentacaoState obterEstadoMovimentacao() {
+		return this.estadoMovimentacao;
+	}
+
 	/**
 	 * Obtém uma direção por sua representação em string.
 	 * 
@@ -60,15 +83,16 @@ public enum DirecaoCardealEnum {
 	 *            representação em string da direção cardeal.
 	 * @return direção caso tenha sido encontrada.
 	 */
-	public DirecaoCardealEnum obterDirecaoPorRepresentacao(String representacaoString) {
+	public Optional<DirecaoCardealEnum> obterDirecaoPorRepresentacao(
+			String representacaoString) {
 
 		for (DirecaoCardealEnum direcao : values()) {
 			if (direcao.obterRepresentacaoString().equals(representacaoString)) {
-				return direcao;
+				return Optional.of(direcao);
 			}
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 	/**
@@ -78,7 +102,7 @@ public enum DirecaoCardealEnum {
 	 * 
 	 * @return próxima direção cardeal à esquerda da direção atual.
 	 */
-	public DirecaoCardealEnum obterProximaDirecaoEsquerda() {
+	public Optional<DirecaoCardealEnum> obterProximaDirecaoEsquerda() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoEsquerda);
 	}
 
@@ -89,7 +113,7 @@ public enum DirecaoCardealEnum {
 	 * 
 	 * @return próxima direção cardeal à direita da direção atual.
 	 */
-	public DirecaoCardealEnum obterProximaDirecaoDireita() {
+	public Optional<DirecaoCardealEnum> obterProximaDirecaoDireita() {
 		return obterDirecaoPorRepresentacao(this.proximaDirecaoDireita);
 	}
 

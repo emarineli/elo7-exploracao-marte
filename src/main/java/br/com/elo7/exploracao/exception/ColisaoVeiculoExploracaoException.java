@@ -1,4 +1,4 @@
-package br.com.elo7.exploracao.exeception;
+package br.com.elo7.exploracao.exception;
 
 /**
  * Lançada quando for realizada a tentativa de implantar uma sonda sobre uma já

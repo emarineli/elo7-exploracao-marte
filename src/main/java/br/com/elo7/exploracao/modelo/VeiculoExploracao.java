@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.hateoas.ResourceSupport;
 
+import br.com.elo7.exploracao.modelo.comando.ComandoVeiculoExploracao;
+import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-
-import br.com.elo7.exploracao.modelo.comando.ComandoVeiculoExploracao;
-import br.com.elo7.exploracao.repositorio.VeiculoExploracaoRepositorio;
 
 /**
  * Representa qualquer veículo de exploração.
@@ -47,14 +47,17 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 	@Autowired
 	private VeiculoExploracaoRepositorio veiculoExploracaoRepositorio;
 
-	public VeiculoExploracao(String identificadorVeiculoExploracao, PosicaoCartesiana posicaoInicial,
-			DirecaoCardealEnum direcaoInicial) {
+	public VeiculoExploracao(String identificadorVeiculoExploracao,
+			PosicaoCartesiana posicaoInicial, DirecaoCardealEnum direcaoInicial) {
 
-		hasText(identificadorVeiculoExploracao, "O Veiculo de Exploracao deve possuir um identificador!");
+		hasText(identificadorVeiculoExploracao,
+				"O Veiculo de Exploracao deve possuir um identificador!");
 
 		this.identificadorVeiculoExploracao = identificadorVeiculoExploracao;
-		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO : posicaoInicial;
-		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO : direcaoInicial;
+		this.posicaoAtual = posicaoInicial == null ? POSICAO_PADRAO
+				: posicaoInicial;
+		this.direcaoAtual = direcaoInicial == null ? DIRECAO_PADRAO
+				: direcaoInicial;
 	}
 
 	public String obterIdentificador() {
@@ -66,7 +69,18 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 	}
 
 	public void ajustarPosicaoAtual(PosicaoCartesiana novaPosicao) {
-		this.posicaoAtual = novaPosicao;
+
+		/* Verifica se a nova posição é inválida */
+		if (!(this.obterTerrenoExploracaoAssociado().posicaoContida(this
+				.obterPosicaoAtual()))) {
+
+			this.posicaoAtual = novaPosicao;
+			
+		} else {
+			throw new IllegalArgumentException(
+					"A nova posição ultrapassa os limites do terreno. Ajuste os comandos!");
+		}
+
 	}
 
 	public DirecaoCardealEnum obterDirecaoAtual() {
@@ -86,8 +100,10 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 	 */
 	public void associarTerrenoExploracao(TerrenoExploracao terrenoExploracao) {
 
-		if (this.posicaoAtual.getEixoX() > terrenoExploracao.obterExtensao().getEixoX()
-				|| this.posicaoAtual.getEixoY() > terrenoExploracao.obterExtensao().getEixoY()) {
+		if (this.posicaoAtual.getEixoX() > terrenoExploracao.obterExtensao()
+				.getEixoX()
+				|| this.posicaoAtual.getEixoY() > terrenoExploracao
+						.obterExtensao().getEixoY()) {
 			throw new IllegalArgumentException(
 					"A sonda não pode ultrapassar o terreno de exploração associado para sua implantação.");
 		}
@@ -103,7 +119,8 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 
 		comando.execute(this);
 
-		this.veiculoExploracaoRepositorio.atualizarPosicaoDirecaoVeiculoExploracao(this);
+		this.veiculoExploracaoRepositorio
+				.atualizarPosicaoDirecaoVeiculoExploracao(this);
 
 		return this;
 
@@ -115,7 +132,8 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 			comando.execute(this);
 
 			/* Atualização é feita por comando */
-			this.veiculoExploracaoRepositorio.atualizarPosicaoDirecaoVeiculoExploracao(this);
+			this.veiculoExploracaoRepositorio
+					.atualizarPosicaoDirecaoVeiculoExploracao(this);
 		}
 
 	}
@@ -132,14 +150,72 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 	 * 
 	 * @param sondaRepositorio
 	 */
-	public void setVeiculoExploracaoRepositorio(VeiculoExploracaoRepositorio sondaRepositorio) {
+	public void setVeiculoExploracaoRepositorio(
+			VeiculoExploracaoRepositorio sondaRepositorio) {
 		this.veiculoExploracaoRepositorio = sondaRepositorio;
+	}
+
+	/**
+	 * Gira a sonda em 90 graus para a direita. Essa é a movimentação base para
+	 * outras da sonda.
+	 * 
+	 * @return instância da sonda.
+	 */
+	public VeiculoExploracao girar90GrausDireita() {
+		DirecaoCardealEnum direcaoAtual = this
+				.obterDirecaoAtual()
+				.obterProximaDirecaoDireita()
+				.orElseThrow(
+						() -> new IllegalArgumentException(
+								"O tipo de direção é incorreto."));
+
+		this.ajustarDirecaoAtual(direcaoAtual);
+
+		return this;
+	}
+
+	/**
+	 * Gira a sonda em 90 graus para a esquerda. Essa é a movimentação base para
+	 * outras da sonda.
+	 * 
+	 * @return instância da sonda.
+	 */
+	public VeiculoExploracao girar90GrausEsquerda() {
+
+		DirecaoCardealEnum direcaoAtual = this
+				.obterDirecaoAtual()
+				.obterProximaDirecaoEsquerda()
+				.orElseThrow(
+						() -> new IllegalArgumentException(
+								"O tipo de direção é incorreto."));
+
+		this.ajustarDirecaoAtual(direcaoAtual);
+
+		return this;
+	}
+
+	/**
+	 * Realiza a movimentação em seu eixo.
+	 * 
+	 * @return instância da sonda.
+	 */
+	public VeiculoExploracao mover() {
+
+		this.obterDirecaoAtual().obterEstadoMovimentacao().mover(this);
+		
+		/* Atualização é feita por comando */
+		this.veiculoExploracaoRepositorio
+				.atualizarPosicaoDirecaoVeiculoExploracao(this);
+
+		return this;
 	}
 
 	@Override
 	public int hashCode() {
-		return new HashCodeBuilder().append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
-				.append(this.direcaoAtual).append(this.terrenoExploracao).toHashCode();
+		return new HashCodeBuilder()
+				.append(this.identificadorVeiculoExploracao)
+				.append(this.posicaoAtual).append(this.direcaoAtual)
+				.append(this.terrenoExploracao).toHashCode();
 	}
 
 	@Override
@@ -148,9 +224,13 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 		if (obj instanceof VeiculoExploracao) {
 			final VeiculoExploracao other = (VeiculoExploracao) obj;
 
-			return new EqualsBuilder().append(this.identificadorVeiculoExploracao, other.identificadorVeiculoExploracao)
-					.append(this.posicaoAtual, other.posicaoAtual).append(this.direcaoAtual, other.direcaoAtual)
-					.append(this.terrenoExploracao, other.terrenoExploracao).isEquals();
+			return new EqualsBuilder()
+					.append(this.identificadorVeiculoExploracao,
+							other.identificadorVeiculoExploracao)
+					.append(this.posicaoAtual, other.posicaoAtual)
+					.append(this.direcaoAtual, other.direcaoAtual)
+					.append(this.terrenoExploracao, other.terrenoExploracao)
+					.isEquals();
 
 		} else {
 			return false;
@@ -159,7 +239,10 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 
 	@Override
 	public String toString() {
-		return new ToStringBuilder(this).append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
-				.append(this.direcaoAtual).append(this.terrenoExploracao).toString();
+		return new ToStringBuilder(this)
+				.append(this.identificadorVeiculoExploracao)
+				.append(this.posicaoAtual).append(this.direcaoAtual)
+				.append(this.terrenoExploracao).toString();
 	}
+
 }

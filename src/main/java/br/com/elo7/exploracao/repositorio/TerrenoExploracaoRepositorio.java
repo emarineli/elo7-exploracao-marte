@@ -1,6 +1,6 @@
 package br.com.elo7.exploracao.repositorio;
 
-import br.com.elo7.exploracao.exeception.TerrenoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.TerrenoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
 /**

@@ -1,5 +1,6 @@
 package br.com.elo7.exploracao.modelo;
 
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
 import static org.springframework.util.Assert.isTrue;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -35,8 +36,7 @@ public class TerrenoExploracao {
 	 *            posicação cartesiana no plano de duas dimensões que representa
 	 *            o ponto máximo da malha
 	 */
-	public TerrenoExploracao(int eixoX,
-			int eixoY) {
+	public TerrenoExploracao(int eixoX, int eixoY) {
 
 		isTrue(eixoX > 0 || eixoY > 0,
 				"A extensão do terreno não pode ser igual ao seu ponto catesiano mínimo (0,0)");
@@ -53,6 +53,21 @@ public class TerrenoExploracao {
 
 		this.extensao = new PosicaoCartesiana(extensao.getEixoX(),
 				extensao.getEixoY());
+	}
+
+	/**
+	 * Verifica se uma posição cartesiana está contina dentro dos limites do
+	 * terreno de exploração.
+	 * 
+	 * @param posicaoAtual
+	 *            posição a ser testada.
+	 * @return se apossição está contina nos limites do terreno.
+	 */
+	public boolean posicaoContida(PosicaoCartesiana posicaoAtual) {
+		return posicaoAtual.getEixoY() > this.obterExtensao().getEixoY()
+				|| posicaoAtual.getEixoX() > this.obterExtensao().getEixoX()
+				|| posicaoAtual.getEixoY() < POSICAO_PADRAO.getEixoY()
+				|| posicaoAtual.getEixoX() < POSICAO_PADRAO.getEixoX();
 	}
 
 	/**
@@ -79,4 +94,5 @@ public class TerrenoExploracao {
 	public String toString() {
 		return ToStringBuilder.reflectionToString(this);
 	}
+
 }

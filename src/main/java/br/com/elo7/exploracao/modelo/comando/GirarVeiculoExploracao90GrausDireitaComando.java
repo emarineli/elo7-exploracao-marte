@@ -8,14 +8,15 @@ import br.com.elo7.exploracao.modelo.VeiculoExploracao;
  * @author emarineli
  *
  */
-public class GirarVeiculoExploracaoDireitaComando implements ComandoVeiculoExploracao {
+public class GirarVeiculoExploracao90GrausDireitaComando implements ComandoVeiculoExploracao {
 
 	/**
 	 * {@inheritDoc}
 	 */
 	@Override
 	public void execute(VeiculoExploracao veiculoExploracao) {
-		veiculoExploracao.ajustarDirecaoAtual(veiculoExploracao.obterDirecaoAtual().obterProximaDirecaoDireita());
+		
+		veiculoExploracao.girar90GrausDireita();
 	}
 
 }

@@ -19,8 +19,8 @@ import org.mockito.runners.MockitoJUnitRunner;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
-import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoDireitaComando;
-import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracaoEsquerdaComando;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracao90GrausDireitaComando;
+import br.com.elo7.exploracao.modelo.comando.GirarVeiculoExploracao90grausEsquerdaComando;
 import br.com.elo7.exploracao.modelo.comando.MovimentarVeiculoExploracaoComando;
 import br.com.elo7.exploracao.repositorio.impl.VeiculoExploracaoRepositorioMemoriaImpl;
 
@@ -159,7 +159,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoEsquerdaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90grausEsquerdaComando());
 
 		assertEquals(OESTE, sonda.obterDirecaoAtual());
 	}
@@ -174,7 +174,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, SUL);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoEsquerdaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90grausEsquerdaComando());
 
 		assertEquals(LESTE, sonda.obterDirecaoAtual());
 	}
@@ -189,7 +189,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoEsquerdaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90grausEsquerdaComando());
 
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
 	}
@@ -204,7 +204,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, OESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoEsquerdaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90grausEsquerdaComando());
 
 		assertEquals(SUL, sonda.obterDirecaoAtual());
 	}
@@ -219,7 +219,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, DIRECAO_PADRAO);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoDireitaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90GrausDireitaComando());
 
 		assertEquals(LESTE, sonda.obterDirecaoAtual());
 	}
@@ -234,7 +234,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, SUL);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoDireitaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90GrausDireitaComando());
 
 		assertEquals(OESTE, sonda.obterDirecaoAtual());
 	}
@@ -249,7 +249,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, LESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoDireitaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90GrausDireitaComando());
 
 		assertEquals(SUL, sonda.obterDirecaoAtual());
 	}
@@ -264,7 +264,7 @@ public class SondaTest {
 		SondaSimples sonda = new SondaSimples("teste", POSICAO_PADRAO, OESTE);
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 
-		sonda.processarComando(new GirarVeiculoExploracaoDireitaComando());
+		sonda.processarComando(new GirarVeiculoExploracao90GrausDireitaComando());
 
 		assertEquals(NORTE, sonda.obterDirecaoAtual());
 	}
@@ -362,7 +362,7 @@ public class SondaTest {
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
 
-		GirarVeiculoExploracaoEsquerdaComando girarEsquerda = new GirarVeiculoExploracaoEsquerdaComando();
+		GirarVeiculoExploracao90grausEsquerdaComando girarEsquerda = new GirarVeiculoExploracao90grausEsquerdaComando();
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(girarEsquerda, movimentar, girarEsquerda, movimentar, girarEsquerda, movimentar,
@@ -391,7 +391,7 @@ public class SondaTest {
 		sonda.setVeiculoExploracaoRepositorio(repoMock);
 		sonda.associarTerrenoExploracao(terrenoBase);
 
-		GirarVeiculoExploracaoDireitaComando girarDireita = new GirarVeiculoExploracaoDireitaComando();
+		GirarVeiculoExploracao90GrausDireitaComando girarDireita = new GirarVeiculoExploracao90GrausDireitaComando();
 		MovimentarVeiculoExploracaoComando movimentar = new MovimentarVeiculoExploracaoComando();
 
 		sonda.processarComandos(movimentar, movimentar, girarDireita, movimentar, movimentar, girarDireita, movimentar,

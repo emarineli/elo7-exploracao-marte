@@ -1,4 +1,4 @@
-package br.com.elo7.exploracao.exeception;
+package br.com.elo7.exploracao.exception;
 
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 
