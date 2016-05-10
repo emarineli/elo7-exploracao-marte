@@ -17,8 +17,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.com.elo7.exploracao.exeception.TerrenoExploracaoJaCriadoException;
-import br.com.elo7.exploracao.exeception.TerrenoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.TerrenoExploracaoJaCriadoException;
+import br.com.elo7.exploracao.exception.TerrenoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;

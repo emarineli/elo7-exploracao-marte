@@ -4,8 +4,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
-import br.com.elo7.exploracao.exeception.TerrenoExploracaoJaCriadoException;
-import br.com.elo7.exploracao.exeception.TerrenoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.TerrenoExploracaoJaCriadoException;
+import br.com.elo7.exploracao.exception.TerrenoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
 import br.com.elo7.exploracao.repositorio.TerrenoExploracaoRepositorio;
 import br.com.elo7.exploracao.repositorio.impl.TerrenoExploracaoRepositorioImpl;

@@ -20,9 +20,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoDuplicadoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.infraestrutura.ExploracaoMarteApplication;
 import br.com.elo7.exploracao.infraestrutura.api.MensagemRetorno;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;

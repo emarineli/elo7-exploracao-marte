@@ -1,5 +1,7 @@
 package br.com.elo7.exploracao.modelo;
 
+import java.util.Optional;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
@@ -51,15 +53,15 @@ public enum ComandoVeiculoExploracaoEnum {
 	 *            representação em string do comando.
 	 * @return comando caso tenha sido encontrado.
 	 */
-	public static ComandoVeiculoExploracaoEnum obterDirecaoPorRepresentacao(String representacaoString) {
+	public static Optional<ComandoVeiculoExploracaoEnum> obterDirecaoPorRepresentacao(String representacaoString) {
 
 		for (ComandoVeiculoExploracaoEnum comando : values()) {
 			if (comando.obterRepresentacaoString().equals(representacaoString)) {
-				return comando;
+				return Optional.of(comando);
 			}
 		}
 
-		return null;
+		return Optional.empty();
 	}
 
 }

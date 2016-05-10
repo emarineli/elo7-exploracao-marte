@@ -1,8 +1,8 @@
 package br.com.elo7.exploracao.repositorio;
 
-import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoDuplicadoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.VeiculoExploracao;
 
 /**

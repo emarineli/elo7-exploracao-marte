@@ -15,7 +15,8 @@ public class GirarVeiculoExploracaoEsquerdaComando implements ComandoVeiculoExpl
 	 */
 	@Override
 	public void execute(VeiculoExploracao veiculoExploracao) {
-		veiculoExploracao.ajustarDirecaoAtual(veiculoExploracao.obterDirecaoAtual().obterProximaDirecaoEsquerda());
+		
+		veiculoExploracao.girarEsquerda();
 
 	}
 

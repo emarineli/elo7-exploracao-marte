@@ -1,7 +1,10 @@
 package br.com.elo7.exploracao.modelo;
 
-import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
 import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.POSICAO_PADRAO;
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.X;
+import static br.com.elo7.exploracao.modelo.PosicaoCartesiana.EixoCartesiano.Y;
+
+import static br.com.elo7.exploracao.modelo.DirecaoCardealEnum.DIRECAO_PADRAO;
 import static org.springframework.util.Assert.hasText;
 
 import org.apache.commons.lang3.builder.EqualsBuilder;
@@ -135,7 +138,53 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 	public void setVeiculoExploracaoRepositorio(VeiculoExploracaoRepositorio sondaRepositorio) {
 		this.veiculoExploracaoRepositorio = sondaRepositorio;
 	}
+	
+	public void girarDireita() {
+		this.ajustarDirecaoAtual(this.obterDirecaoAtual().obterProximaDirecaoDireita());		
+	}
+	
+	public void girarEsquerda() {
+		this.ajustarDirecaoAtual(this.obterDirecaoAtual().obterProximaDirecaoEsquerda());
+	}
 
+	public void mover() {
+
+		int avanco = this.obterAvancoPadrao();
+		PosicaoCartesiana posicaoAtual = this.obterPosicaoAtual();
+
+		/* O eixo da movimentação irá depender da direção atual */
+		switch (this.obterDirecaoAtual()) {
+
+		case NORTE:
+			posicaoAtual = posicaoAtual.avancarNoEixo(Y, avanco);
+			break;
+
+		case SUL:
+			posicaoAtual = posicaoAtual.retrocederNoEixo(Y, avanco);
+			break;
+
+		case LESTE:
+			posicaoAtual = posicaoAtual.avancarNoEixo(X, avanco);
+			break;
+
+		case OESTE:
+			posicaoAtual = posicaoAtual.retrocederNoEixo(X, avanco);
+			break;
+		}
+
+		TerrenoExploracao terrenoExploracao = this.obterTerrenoExploracaoAssociado();
+		
+		/* Verifica se a nova posição é inválida */
+		if (!(terrenoExploracao.posicaoContida(posicaoAtual))) {
+
+			this.ajustarPosicaoAtual(posicaoAtual);
+		} else {
+			throw new IllegalArgumentException(
+					"A nova posição ultrapassa os limites do terreno. Ajuste os comandos!");
+		}
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		return new HashCodeBuilder().append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
@@ -162,4 +211,6 @@ public abstract class VeiculoExploracao extends ResourceSupport {
 		return new ToStringBuilder(this).append(this.identificadorVeiculoExploracao).append(this.posicaoAtual)
 				.append(this.direcaoAtual).append(this.terrenoExploracao).toString();
 	}
+
+
 }

@@ -16,9 +16,9 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.runners.MockitoJUnitRunner;
 
-import br.com.elo7.exploracao.exeception.ColisaoVeiculoExploracaoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoDuplicadoException;
-import br.com.elo7.exploracao.exeception.VeiculoExploracaoNaoEncontradoException;
+import br.com.elo7.exploracao.exception.ColisaoVeiculoExploracaoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoDuplicadoException;
+import br.com.elo7.exploracao.exception.VeiculoExploracaoNaoEncontradoException;
 import br.com.elo7.exploracao.modelo.PosicaoCartesiana;
 import br.com.elo7.exploracao.modelo.SondaSimples;
 import br.com.elo7.exploracao.modelo.TerrenoExploracao;
